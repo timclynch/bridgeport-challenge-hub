@@ -47,21 +47,25 @@ export function ConflictPanel({ r }: { r: Resource }) {
 const SHOW = ["location", "service_hours", "cost", "access", "modality", "phone", "email"];
 
 export function FactList({ r }: { r: Resource }) {
+  const rows = SHOW.map((field) => ({ field, l: factLabel(getFact(r, field)) }));
+  const unknown = rows.filter((x) => x.l.tone === "unknown").map((x) => FACT_LABELS[x.field]);
   return (
     <dl className="grid grid-cols-[6.5rem_1fr] gap-x-2 gap-y-1 text-sm">
-      {SHOW.map((field) => {
-        const l = factLabel(getFact(r, field));
-        return (
-          <div key={field} className="contents">
-            <dt className="text-muted-foreground">{FACT_LABELS[field]}</dt>
-            <dd className={cn(l.tone === "published" ? "text-foreground" : l.tone === "conflict" ? "font-medium text-warn-foreground" : "text-muted-foreground")}>
-              {l.tone === "unknown" && <HelpCircle className="mr-1 inline size-3.5 text-warn-foreground" />}
-              {l.tone === "conflict" && <ArrowLeftRight className="mr-1 inline size-3.5" />}
-              {l.text}
-            </dd>
-          </div>
-        );
-      })}
+      {rows.filter((x) => x.l.tone !== "unknown").map(({ field, l }) => (
+        <div key={field} className="contents">
+          <dt className="text-muted-foreground">{FACT_LABELS[field]}</dt>
+          <dd className={cn(l.tone === "conflict" ? "font-medium text-warn-foreground" : "text-foreground")}>
+            {l.tone === "conflict" && <ArrowLeftRight className="mr-1 inline size-3.5" />}
+            {l.text}
+          </dd>
+        </div>
+      ))}
+      {unknown.length > 0 && (
+        <div className="contents">
+          <dt className="text-muted-foreground"><HelpCircle className="mr-1 inline size-3.5 text-warn-foreground" />Unknown</dt>
+          <dd className="text-muted-foreground">Ask about: {unknown.join(", ").toLowerCase()}</dd>
+        </div>
+      )}
       {r.windows.length > 0 && (
         <div className="contents">
           <dt className="text-muted-foreground">Window</dt>
