@@ -27,7 +27,7 @@ How to respond:
 6. If a student mentions self-harm or crisis, immediately share 988 (Suicide & Crisis Lifeline, call or text) and 911 for emergencies, plus UB Counseling.`;
 
 export async function handleChat(request: Request) {
-  const apiKey = process.env.LOVABLE_API_KEY;
+  const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) return Response.json({ error: "AI is not configured." }, { status: 500 });
   const { messages } = (await request.json()) as { messages: UIMessage[] };
 
