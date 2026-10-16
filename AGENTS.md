@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- AI chat streams through the server route `/api/chat` (`src/lib/chat.server.ts`), and the UI is built with AI Elements: this keeps the key and prompt on the server and the chat parts reusable.
