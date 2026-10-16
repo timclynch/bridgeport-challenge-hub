@@ -1,234 +1,116 @@
-// Real UB / Connecticut resources from the Challenge 3 research (Oct 2026).
-// Never add hours, rooms or emails the research did not establish.
+// Typed adapter over the Next Step data catalog (data/catalog.enriched.json, reviewed 2026-10-16).
+// Fact values come only from the catalog. Unknown stays unknown; conflicting has no single value.
+import { useCallback, useEffect, useState } from "react";
+import catalog from "./catalog.json";
+import demo from "./demo.json";
 
-export type Category = "food" | "support" | "money" | "events" | "tutoring" | "housing" | "transport";
+export type FactStatus = "published" | "conflicting" | "unknown" | "provider_confirmed";
+export type Fact = { status: FactStatus; value: unknown; note: string; evidence: { sourceId: string; value: unknown }[] };
+export type Source = { id: string; url: string | null; title: string; reviewedAt: string };
+export type Window = { weekday: number; start: string; end: string };
+export type CatalogEvent = { startsAt: string; endsAt: string; registration: string };
+
+type Raw = {
+  id: string; name: string; category: string; kind: string; description: string; url: string | null; nextStep: string;
+  needs: string[]; sources: Source[]; facts: Record<string, Fact>; unknown: string[]; windows: Window[];
+  event: CatalogEvent | null; sample: boolean; overdue: boolean;
+};
+
 export type Confidence = "published" | "confirm" | "conflict";
-
-export type Contact = {
-  phone?: string;
-  phoneLabel?: string;
-  url?: string;
-  urlLabel?: string;
-  walkIn?: string;
-};
-
-export type Resource = {
-  id: string;
-  name: string;
-  categories: Category[];
+export type Resource = Raw & {
   helps: string;
-  access: string;
-  contact: Contact;
   confidence: Confidence;
-  source: string;
-  offCampus?: boolean;
-  unresolved: string[];
-  /** Attributes used to compare against preferences. Missing key = unknown. */
+  offCampus: boolean;
+  /** Attributes compared against preferences. Missing key = unknown. */
   tags: Record<string, string[]>;
-  conflict?: { summary: string; sources: { label: string; states: string }[] };
 };
 
-const UB_MAIN = "1-800-392-3582";
-const UB_SITE = "https://www.bridgeport.edu";
+export const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const OFF = new Set(["gbt", "offcampus"]);
 
-export const RESOURCES: Resource[] = [
-  {
-    id: "knights-pantry",
-    name: "Knights Pantry",
-    categories: ["food", "money"],
-    helps: "Free groceries and basics for UB students",
-    access: "For UB students · order then pick up",
-    contact: { url: UB_SITE, urlLabel: "Search “Knights Pantry” on bridgeport.edu", phone: UB_MAIN, phoneLabel: "UB main line — ask for Knights Pantry" },
-    confidence: "conflict",
-    source: "UB pantry page and an older UB news article",
-    unresolved: ["Current pickup location", "Pickup days and times", "Whether an order is needed ahead"],
-    tags: { kind: ["groceries"], where: ["on"], how: ["in-person"] },
-    conflict: {
-      summary: "An older UB article describes a previous pantry location.",
-      sources: [
-        { label: "UB pantry page", states: "Current ordering process" },
-        { label: "Older UB news article", states: "A previous location" },
-      ],
-    },
-  },
-  {
-    id: "ct-foodshare",
-    name: "Connecticut Foodshare",
-    categories: ["food"],
-    helps: "Finds community food pantries and mobile pantries near you",
-    access: "Open to the community · off campus",
-    contact: { url: "https://www.ctfoodshare.org", urlLabel: "Find food on ctfoodshare.org" },
-    confidence: "confirm",
-    source: "Connecticut Foodshare public site",
-    offCampus: true,
-    unresolved: ["Which pantry is closest to you", "That pantry’s hours and pickup rules"],
-    tags: { kind: ["groceries", "meal"], where: ["off"], how: ["in-person"] },
-  },
-  {
-    id: "ct-211",
-    name: "CT 2-1-1",
-    categories: ["food", "money", "housing", "support", "transport"],
-    helps: "Statewide directory for food, housing, bills and crisis help",
-    access: "Free · anyone in Connecticut · 24/7 by phone",
-    contact: { phone: "211", phoneLabel: "Dial 2-1-1", url: "https://www.211ct.org", urlLabel: "Search 211ct.org" },
-    confidence: "published",
-    source: "211ct.org",
-    offCampus: true,
-    unresolved: ["Which listed provider fits your situation"],
-    tags: { kind: ["groceries", "meal"], where: ["off"], how: ["phone", "online"], topic: ["money", "housing"] },
-  },
-  {
-    id: "counseling",
-    name: "Counseling Services",
-    categories: ["support"],
-    helps: "Free, confidential counseling for enrolled students",
-    access: "Enrolled UB students · confidential",
-    contact: { phone: UB_MAIN, phoneLabel: "UB main line — ask for Counseling Services", url: UB_SITE, urlLabel: "Counseling page on bridgeport.edu" },
-    confidence: "conflict",
-    source: "UB counseling pages and student FAQ (Oct 14 research, not re-checked)",
-    unresolved: ["Office location", "Whether psychiatric services are offered", "How to book a first appointment"],
-    tags: { how: ["in-person"], where: ["on"], topic: ["talk"] },
-    conflict: {
-      summary: "UB pages disagree on location and on psychiatric service scope.",
-      sources: [
-        { label: "Counseling Services page", states: "One location and service list" },
-        { label: "Student FAQ page", states: "A different location and scope" },
-      ],
-    },
-  },
-  {
-    id: "student-affairs",
-    name: "Student Affairs",
-    categories: ["support", "money", "housing"],
-    helps: "A general starting point when you’re not sure which office fits",
-    access: "UB students",
-    contact: { phone: UB_MAIN, phoneLabel: "UB main line — ask for Student Affairs", url: UB_SITE, urlLabel: "Student Affairs on bridgeport.edu" },
-    confidence: "confirm",
-    source: "UB public site",
-    unresolved: ["Office hours", "Best way to reach them"],
-    tags: { where: ["on"], how: ["in-person", "phone"], topic: ["talk", "money", "housing", "access"] },
-  },
-  {
-    id: "accessibility",
-    name: "Accessibility Services",
-    categories: ["support"],
-    helps: "Registration and accommodation requests",
-    access: "UB students · documentation process applies",
-    contact: { phone: UB_MAIN, phoneLabel: "UB main line — ask for Accessibility Services", url: UB_SITE, urlLabel: "Accessibility Services on bridgeport.edu" },
-    confidence: "confirm",
-    source: "UB public site",
-    unresolved: ["What documents are needed", "Timeline for accommodations"],
-    tags: { where: ["on"], topic: ["access"] },
-  },
-  {
-    id: "heckman",
-    name: "Heckman Center",
-    categories: ["tutoring", "support"],
-    helps: "Student success hub: advising, academic support, small meeting spaces",
-    access: "UB students",
-    contact: { phone: UB_MAIN, phoneLabel: "UB main line — ask for the Heckman Center", url: UB_SITE, urlLabel: "Heckman Center on bridgeport.edu" },
-    confidence: "confirm",
-    source: "UB Heckman pages",
-    unresolved: ["Hours", "Whether advising needs an appointment"],
-    tags: { where: ["on"], how: ["in-person"], topic: ["talk"] },
-  },
-  {
-    id: "tutoring",
-    name: "Free tutoring (via Canvas)",
-    categories: ["tutoring"],
-    helps: "Free subject tutoring for UB students",
-    access: "Free · campus login · walk-ins depend on tutor availability",
-    contact: { url: UB_SITE, urlLabel: "Open tutoring info (Canvas login)" },
-    confidence: "confirm",
-    source: "UB tutoring page",
-    unresolved: ["Whether your subject is covered", "Open session times"],
-    tags: { where: ["on"], how: ["in-person", "online"] },
-  },
-  {
-    id: "wahlstrom",
-    name: "Wahlstrom Library study rooms",
-    categories: ["tutoring", "events"],
-    helps: "Bookable 1st-floor study rooms for you or a study group",
-    access: "UB students · book in the Dibs app",
-    contact: { url: UB_SITE, urlLabel: "Library page (Dibs room booking)" },
-    confidence: "published",
-    source: "UB room-booking guide",
-    unresolved: [],
-    tags: { where: ["on"], how: ["in-person"] },
-  },
-  {
-    id: "handshake",
-    name: "Handshake (jobs & internships)",
-    categories: ["money"],
-    helps: "On-campus jobs, internships and career events",
-    access: "UB students · log in with UB account",
-    contact: { url: "https://joinhandshake.com", urlLabel: "Open Handshake" },
-    confidence: "published",
-    source: "UB career services / Handshake",
-    unresolved: ["Which on-campus jobs are open now"],
-    tags: { where: ["on", "off"], how: ["online"], topic: ["money"] },
-  },
-  {
-    id: "financial-aid",
-    name: "Financial Aid office",
-    categories: ["money"],
-    helps: "Questions about aid, payment plans and emergency options",
-    access: "UB students",
-    contact: { phone: UB_MAIN, phoneLabel: "UB main line — ask for Financial Aid", url: UB_SITE, urlLabel: "Financial Aid on bridgeport.edu" },
-    confidence: "confirm",
-    source: "UB public site",
-    unresolved: ["Whether emergency funds exist and how to apply"],
-    tags: { where: ["on"], how: ["in-person", "phone"], topic: ["money"] },
-  },
-  {
-    id: "knightlife",
-    name: "KnightLife (CampusGroups)",
-    categories: ["events"],
-    helps: "Browse campus events, clubs and organizations",
-    access: "UB students · UB login",
-    contact: { url: UB_SITE, urlLabel: "Open KnightLife" },
-    confidence: "published",
-    source: "UB KnightLife / CampusGroups",
-    unresolved: ["Whether a given event needs registration", "Who to look for if you arrive alone"],
-    tags: { where: ["on"], how: ["in-person", "online"] },
-  },
-  {
-    id: "csi",
-    name: "Center for Student Involvement (CSI)",
-    categories: ["events"],
-    helps: "Clubs, student organizations and starting your own event",
-    access: "UB students",
-    contact: { phone: UB_MAIN, phoneLabel: "UB main line — ask for CSI", url: UB_SITE, urlLabel: "CSI on bridgeport.edu" },
-    confidence: "confirm",
-    source: "UB room-booking guide",
-    unresolved: ["Office hours", "Club meeting times"],
-    tags: { where: ["on"], how: ["in-person"] },
-  },
-  {
-    id: "reslife",
-    name: "Residential Life",
-    categories: ["housing"],
-    helps: "Campus housing questions",
-    access: "UB students",
-    contact: { phone: UB_MAIN, phoneLabel: "UB main line — ask for Residential Life", url: UB_SITE, urlLabel: "Residential Life on bridgeport.edu" },
-    confidence: "confirm",
-    source: "UB public site",
-    unresolved: ["Office hours"],
-    tags: { where: ["on"], topic: ["housing"] },
-  },
-  {
-    id: "gbt",
-    name: "Greater Bridgeport Transit (GBT)",
-    categories: ["transport"],
-    helps: "Local bus routes and schedules",
-    access: "Public transit · fares apply",
-    contact: { url: "https://gogbt.com", urlLabel: "Open gogbt.com" },
-    confidence: "confirm",
-    source: "Commuter research",
-    offCampus: true,
-    unresolved: ["Student fare options"],
-    tags: { where: ["off"] },
-  },
-];
+export const FACT_LABELS: Record<string, string> = {
+  location: "Location",
+  service_hours: "Hours",
+  cost: "Cost",
+  access: "Access",
+  audience: "Who it’s for",
+  modality: "How",
+  documents: "Documents",
+  appointment_availability: "Appointments",
+  phone: "Phone",
+  email: "Email",
+  psychiatric_services: "Psychiatric services",
+  capacity: "Capacity",
+  arrival_guidance: "Arriving alone",
+};
 
-export const getResource = (id: string | undefined) => RESOURCES.find((r) => r.id === id);
+export function getFact(r: Pick<Raw, "facts">, field: string): Fact {
+  return r.facts[field] ?? { status: "unknown", value: null, note: "", evidence: [] };
+}
+
+export function formatValue(v: unknown): string {
+  if (v == null) return "";
+  if (Array.isArray(v)) return v.map(formatValue).join(", ");
+  if (typeof v === "object") {
+    const o = v as Record<string, unknown>;
+    if (o["kind"] === "free") return "Free";
+    if (o["kind"]) return String(o["kind"]).replace(/_/g, " ");
+    return Object.values(o).map(formatValue).join(" · ");
+  }
+  return String(v).replace(/_/g, " ").replace(/^enrolled student$/, "Enrolled students").replace(/^in person$/, "In person").replace(/^online$/, "Online");
+}
+
+/** Display text for a fact. Unknown is never shown as "no requirement". */
+export function factLabel(f: Fact): { tone: "published" | "unknown" | "conflict"; text: string } {
+  if (f.status === "conflicting") return { tone: "conflict", text: "Conflicting — sources disagree" };
+  if (f.status === "unknown" || f.value == null) return { tone: "unknown", text: "Unknown — ask" };
+  return { tone: "published", text: formatValue(f.value) };
+}
+
+function adapt(r: Raw): Resource {
+  const tags: Record<string, string[]> = {};
+  const modality = getFact(r, "modality");
+  if (modality.status === "published" && Array.isArray(modality.value)) {
+    tags["how"] = (modality.value as string[]).map((m) => (m === "in_person" ? "in-person" : m));
+  }
+  const offCampus = r.id.startsWith("community") || OFF.has(r.id);
+  tags["where"] = [offCampus ? "off" : "on"];
+  if (r.windows.length) tags["days"] = [...new Set(r.windows.map((w) => DAY_NAMES[w.weekday] as string))];
+  else if (r.event) tags["days"] = [DAY_NAMES[(new Date(r.event.startsAt).getUTCDay() + 6) % 7] as string];
+  const topics = r.needs.map((n) => n.replace("support_", ""));
+  if (topics.length) tags["topic"] = topics;
+  const conflict = Object.values(r.facts).some((f) => f.status === "conflicting");
+  return { ...r, helps: r.description, offCampus, tags, confidence: conflict ? "conflict" : "confirm" };
+}
+
+export const REAL: Resource[] = (catalog as Raw[]).map(adapt);
+export const DEMO: Resource[] = (demo as Raw[]).map(adapt);
+export const allResources = (withDemo: boolean) => (withDemo ? [...REAL, ...DEMO] : REAL);
+export const CATEGORIES = [...new Set(REAL.map((r) => r.category))].sort();
+
+export const getResource = (id: string | undefined) => [...REAL, ...DEMO].find((r) => r.id === id);
+export const sourceFor = (r: Resource, id: string) => r.sources.find((s) => s.id === id);
+
+/** Key unknowns worth asking about before relying on this resource. */
+export function unresolved(r: Resource): string[] {
+  const keys = ["location", "service_hours", "appointment_availability", "cost", "documents"];
+  return keys.filter((k) => getFact(r, k).status !== "published").map((k) => FACT_LABELS[k] as string);
+}
+
+const DEMO_KEY = "next-step:demo";
+const demoSubs = new Set<(v: boolean) => void>();
+export function useDemo() {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    setOn(localStorage.getItem(DEMO_KEY) === "1");
+    demoSubs.add(setOn);
+    return () => {
+      demoSubs.delete(setOn);
+    };
+  }, []);
+  const set = useCallback((v: boolean) => {
+    localStorage.setItem(DEMO_KEY, v ? "1" : "0");
+    demoSubs.forEach((s) => s(v));
+  }, []);
+  return [on, set] as const;
+}

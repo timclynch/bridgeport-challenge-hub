@@ -2,9 +2,9 @@ import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-ro
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Check, Globe, MapPin, Phone, Plus, X, AlertCircle } from "lucide-react";
 import { Shell, Chip, Badge, btn } from "@/components/next/shell";
-import { ResourceCard, ConflictPanel, FitBadge } from "@/components/next/resource-card";
+import { ResourceCard, ConflictPanel, FitBadge, SampleBadge, Sources } from "@/components/next/resource-card";
 import { JOURNEYS, isJourney, rankOptions, fit as fitOf, type FitStatus } from "@/data/journeys";
-import { getResource, type Resource } from "@/data/resources";
+import { getResource, getFact, unresolved, useDemo, type Resource } from "@/data/resources";
 import { useSteps, addStep } from "@/lib/steps";
 
 type StepName = "prefs" | "compare" | "card" | "contact";
@@ -118,7 +118,8 @@ function summary(journey: J, prefs: Record<string, string>) {
 }
 
 function Compare({ journey, prefs, selected, go }: { journey: J; prefs: Record<string, string>; selected: string | undefined; go: (p: Partial<Search>) => void }) {
-  const ranked = useMemo(() => rankOptions(journey, prefs), [journey, prefs]);
+  const [demo] = useDemo();
+  const ranked = useMemo(() => rankOptions(journey, prefs, demo), [journey, prefs, demo]);
   const [editing, setEditing] = useState(false);
   const [change, setChange] = useState<{ prev: Record<string, string>; lines: string[] } | null>(null);
   const prevRef = useRef(prefs);
@@ -168,6 +169,7 @@ function Compare({ journey, prefs, selected, go }: { journey: J; prefs: Record<s
           <li className="flex gap-2 text-foreground"><Check className="size-4 text-primary" /> Compared access details for {ranked.length} resources</li>
           {left > 0 && <li className="flex gap-2 text-foreground"><Check className="size-4 text-primary" /> Moved {left} that don’t fit to the bottom</li>}
           {unknownDays > 0 && <li className="flex gap-2 text-warn-foreground"><AlertCircle className="size-4" /> Couldn’t check some preferences for {unknownDays}: no published details</li>}
+          {demo && <li className="flex gap-2 text-danger"><AlertCircle className="size-4" /> Demo is on: fictional sample records are mixed in and labeled</li>}
         </ul>
         {ranked.map(({ resource, fit }) => (
           <ResourceCard
@@ -184,7 +186,7 @@ function Compare({ journey, prefs, selected, go }: { journey: J; prefs: Record<s
           />
         ))}
         <p className="text-sm text-muted-foreground">
-          None of these right? <button className="font-semibold text-primary underline" onClick={() => go({ step: "card", r: "student-affairs" })}>Start with Student Affairs</button>, a general contact.
+          None of these right? <button className="font-semibold text-primary underline" onClick={() => go({ step: "card", r: "affairs" })}>Start with Student Affairs</button>, a general contact.
         </p>
       </div>
       {sel && (
@@ -208,7 +210,7 @@ function Compare({ journey, prefs, selected, go }: { journey: J; prefs: Record<s
 function CardStep({ journey, r, prefs, msg, contact, go }: { journey: J; r: Resource | undefined; prefs: Record<string, string>; msg: string; contact: boolean; go: (p: Partial<Search>) => void }) {
   const { update } = useSteps();
   const [goal, setGoal] = useState(msg);
-  const [qs, setQs] = useState(() => [...journey.confirmQs, ...(r?.unresolved.slice(0, 1).map((u) => `${u}?`) ?? [])]);
+  const [qs, setQs] = useState(() => [...journey.confirmQs, ...(r ? unresolved(r).slice(0, 2).map((u) => `Can you confirm the ${u.toLowerCase()}?`) : [])]);
   const [checked, setChecked] = useState<Set<string>>(() => new Set(journey.confirmQs));
   const [newQ, setNewQ] = useState("");
   const [toast, setToast] = useState<string | null>(null);
@@ -225,7 +227,7 @@ function CardStep({ journey, r, prefs, msg, contact, go }: { journey: J; r: Reso
   };
   const save = () => {
     const id = savedId ?? `${r.id}-${Date.now().toString(36)}`;
-    update((list) => addStep(list, { id, journey: journey.id, resourceId: r.id, title: r.name, goal, questions: chosen, status: "deciding", note: "", sensitive: journey.id === "support" }));
+    update((list) => addStep(list, { id, journey: journey.id, resourceId: r.id, title: r.name, goal, questions: chosen, status: "deciding", note: "", sensitive: journey.id === "support", sample: r.sample }));
     setSavedId(id);
     flash("Saved to My next steps. This is not an appointment.");
   };
@@ -239,15 +241,17 @@ function CardStep({ journey, r, prefs, msg, contact, go }: { journey: J; r: Reso
         <h1 className="font-display text-3xl font-semibold text-foreground">Contact {r.name}</h1>
         <div className="mt-2 flex flex-wrap gap-2">
           <FitBadge fit={f} />
+          <SampleBadge r={r} />
           <Badge tone={savedId ? "success" : "muted"}>{savedId ? "Saved · not sent" : "Not saved"}</Badge>
         </div>
       </div>
       <section className="space-y-4 rounded-2xl border border-border bg-card p-5 shadow-card">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Why this may fit</p>
-          <p className="text-foreground">{r.helps}. {r.access}.</p>
+          <p className="text-foreground">{r.description}</p>
+          <p className="mt-1 text-sm text-foreground"><span className="font-semibold">Catalog next step: </span>{r.nextStep}</p>
         </div>
-        {r.conflict && <ConflictPanel r={r} />}
+        {r.confidence === "conflict" && <ConflictPanel r={r} />}
         <label className="block">
           <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Goal, in your words</span>
           <textarea value={goal} onChange={(e) => setGoal(e.target.value)} rows={2} className="mt-1 w-full rounded-xl border border-input bg-background p-3 text-foreground outline-none focus:border-primary" />
@@ -277,6 +281,7 @@ function CardStep({ journey, r, prefs, msg, contact, go }: { journey: J; r: Reso
           <pre className="mt-2 whitespace-pre-wrap font-sans text-sm text-foreground">{draft}</pre>
           <p className="mt-1 text-xs text-muted-foreground">Brackets are placeholders to fill in.</p>
         </details>
+        <Sources r={r} />
       </section>
       {toast && <p role="status" className="rounded-xl bg-secondary p-3 text-sm font-medium text-secondary-foreground">{toast}</p>}
       <div className="flex flex-wrap gap-3">
@@ -290,10 +295,16 @@ function CardStep({ journey, r, prefs, msg, contact, go }: { journey: J; r: Reso
 }
 
 function ContactStep({ r, draft, chosen }: { r: Resource; draft: string; chosen: string[] }) {
+  const phone = getFact(r, "phone");
+  const email = getFact(r, "email");
+  const loc = getFact(r, "location");
+  const phoneV = phone.status === "published" ? String(phone.value) : "";
+  const emailV = email.status === "published" ? String(email.value) : "";
   const methods = [
-    r.contact.phone && { id: "call", icon: Phone, label: "Call", to: r.contact.phoneLabel ?? r.contact.phone, inc: "Your questions to read out", does: "You call from your phone. Nothing is sent by Next Step.", href: `tel:${r.contact.phone.replace(/[^0-9]/g, "")}`, cta: `Call ${r.contact.phone}` },
-    r.contact.url && { id: "online", icon: Globe, label: "Online", to: r.contact.urlLabel ?? r.contact.url, inc: "Copy your draft and paste it into their form or email", does: "Opens their site in a new tab.", href: r.contact.url, cta: "Open their site" },
-    { id: "walk", icon: MapPin, label: "Walk in", to: r.conflict ? "Location not confirmed — call first" : "Their office", inc: "Your questions on your phone", does: "Go in person. Confirm location and hours first.", href: "", cta: "" },
+    emailV && { id: "email", icon: Globe, label: "Email", to: emailV, inc: "Your goal, chosen questions and draft", does: "Opens your email app with the draft. Opening it does not send anything.", href: `mailto:${emailV}?subject=${encodeURIComponent("Question from a UB student")}&body=${encodeURIComponent(draft)}`, cta: "Open email app" },
+    phoneV && { id: "call", icon: Phone, label: "Call", to: `${r.name} · ${phoneV}`, inc: "Your questions to read out", does: "You call from your phone. Nothing is sent by Next Step.", href: `tel:${phoneV.replace(/[^0-9]/g, "")}`, cta: `Call ${phoneV}` },
+    r.url && { id: "online", icon: Globe, label: "Official page", to: r.url, inc: "Copy your draft if they have a form", does: "Opens the official page in a new tab. Your draft is copied.", href: r.url, cta: "Open official page" },
+    { id: "walk", icon: MapPin, label: "Walk in", to: loc.status === "published" ? String(loc.value) : loc.status === "conflicting" ? "Location conflicts across sources — call or check first" : "Location not published — check first", inc: "Your questions on your phone", does: "Go in person. Confirm location and hours first.", href: "", cta: "" },
   ].filter(Boolean) as { id: string; icon: typeof Phone; label: string; to: string; inc: string; does: string; href: string; cta: string }[];
   const [pick, setPick] = useState(methods[0]!.id);
   const m = methods.find((x) => x.id === pick)!;

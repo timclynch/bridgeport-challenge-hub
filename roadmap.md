@@ -2,3 +2,4 @@
 - [x] Rename app to Next Step (CT Data × University of Bridgeport)
 - [x] Build all Next_Step_v2 mockup screens (start, preferences, compare, action card, contact, my next steps, browse, urgent help, ask chat)
 - [x] Tests for fit rules and saved steps
+- [x] Swap in the 54-resource data catalog + Demo switch

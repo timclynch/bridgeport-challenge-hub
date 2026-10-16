@@ -55,7 +55,7 @@ function StepsPage() {
               <li key={s.id} className="space-y-3 rounded-2xl border border-border bg-card p-5 shadow-card">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{i + 1} · {masked ? "Private step" : s.journey}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{i + 1} · {masked ? "Private step" : s.journey}{s.sample && <span className="ml-2 rounded-full bg-danger-soft px-2 py-0.5 normal-case text-danger">Sample data · fictional</span>}</p>
                     <h2 className="font-display text-xl font-semibold text-card-foreground">{masked ? "Saved for you to review" : s.title}</h2>
                     {!masked && <p className="text-sm text-muted-foreground">{s.goal}</p>}
                   </div>
@@ -110,7 +110,7 @@ function NoReply({ journey, resourceId }: { journey: string; resourceId: string 
       <p className="font-semibold text-foreground">Waiting for a reply?</p>
       <p className="text-muted-foreground">No response time is published. You could:</p>
       <div className="mt-2 flex flex-wrap gap-2">
-        <Link to="/need/$journey" params={{ journey }} search={{ step: "card", r: "student-affairs" }} className={btn.ghost}>Try another route: Student Affairs →</Link>
+        <Link to="/need/$journey" params={{ journey }} search={{ step: "card", r: "affairs" }} className={btn.ghost}>Try another route: Student Affairs →</Link>
         <Link to="/need/$journey" params={{ journey }} search={{ step: "card", r: resourceId, msg: "Following up on my earlier message." }} className={btn.ghost}>Prepare a follow-up →</Link>
         <Link to="/need/$journey" params={{ journey }} search={{ step: "prefs" }} className={btn.ghost}>Change my timing →</Link>
       </div>
