@@ -11,7 +11,7 @@ type StepName = "prefs" | "compare" | "card" | "contact";
 type Search = { step: StepName; msg?: string | undefined; r?: string | undefined; p?: Record<string, string> | undefined };
 
 export const Route = createFileRoute("/need/$journey")({
-  validateSearch: (s: Record<string, unknown>): Search => ({
+  validateSearch: (s: { step?: unknown; msg?: unknown; r?: unknown; p?: unknown }): Search => ({
     step: (["prefs", "compare", "card", "contact"] as const).includes(s.step as StepName) ? (s.step as StepName) : "prefs",
     msg: typeof s.msg === "string" ? s.msg : undefined,
     r: typeof s.r === "string" ? s.r : undefined,

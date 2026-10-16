@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AskRouteImport } from './routes/ask'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as StepsRouteImport } from './routes/steps'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -18,6 +19,11 @@ import { Route as NeedJourneyRouteImport } from './routes/need.$journey'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AskRoute = AskRouteImport.update({
+  id: '/ask',
+  path: '/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BrowseRoute = BrowseRouteImport.update({
@@ -43,6 +49,7 @@ const NeedJourneyRoute = NeedJourneyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ask': typeof AskRoute
   '/browse': typeof BrowseRoute
   '/steps': typeof StepsRoute
   '/api/chat': typeof ApiChatRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ask': typeof AskRoute
   '/browse': typeof BrowseRoute
   '/steps': typeof StepsRoute
   '/api/chat': typeof ApiChatRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ask': typeof AskRoute
   '/browse': typeof BrowseRoute
   '/steps': typeof StepsRoute
   '/api/chat': typeof ApiChatRoute
@@ -65,14 +74,23 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/browse' | '/steps' | '/api/chat' | '/need/$journey'
+  fullPaths:
+    '/' | '/ask' | '/browse' | '/steps' | '/api/chat' | '/need/$journey'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/browse' | '/steps' | '/api/chat' | '/need/$journey'
-  id: '__root__' | '/' | '/browse' | '/steps' | '/api/chat' | '/need/$journey'
+  to: '/' | '/ask' | '/browse' | '/steps' | '/api/chat' | '/need/$journey'
+  id:
+    | '__root__'
+    | '/'
+    | '/ask'
+    | '/browse'
+    | '/steps'
+    | '/api/chat'
+    | '/need/$journey'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AskRoute: typeof AskRoute
   BrowseRoute: typeof BrowseRoute
   StepsRoute: typeof StepsRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -86,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ask': {
+      id: '/ask'
+      path: '/ask'
+      fullPath: '/ask'
+      preLoaderRoute: typeof AskRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/browse': {
@@ -121,6 +146,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AskRoute: AskRoute,
   BrowseRoute: BrowseRoute,
   StepsRoute: StepsRoute,
   ApiChatRoute: ApiChatRoute,
