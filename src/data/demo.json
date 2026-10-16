@@ -1,0 +1,22 @@
+[
+  {"id":"demo-pantry","name":"Sample Campus Pantry","category":"Food & essentials","kind":"service","description":"Sample food pickup; appointment capacity is unknown.","url":null,"nextStep":"Review this sample action card.","needs":["food"],
+   "sources":[{"id":"demo-src-pantry","url":null,"title":"Sample record: Sample Campus Pantry","reviewedAt":"2026-10-16"}],
+   "facts":{"cost":{"status":"published","value":{"kind":"free"},"note":"","evidence":[{"sourceId":"demo-src-pantry","value":{"kind":"free"}}]},
+            "audience":{"status":"published","value":["enrolled_student"],"note":"","evidence":[{"sourceId":"demo-src-pantry","value":["enrolled_student"]}]},
+            "location":{"status":"conflicting","value":null,"note":"Sample sources disagree; confirm before visiting.","evidence":[{"sourceId":"demo-src-pantry","value":"Cedar Hall (fictional)"},{"sourceId":"demo-src-pantry","value":"Maple Hall (fictional)"}]}},
+   "unknown":["appointment_availability","capacity","documents"],"windows":[{"weekday":1,"start":"14:00","end":"15:00"}],"event":null,"sample":true,"overdue":false},
+  {"id":"demo-tutor","name":"Sample Tutoring Center","category":"Academics & learning","kind":"service","description":"Sample office hours, not available tutoring appointments.","url":null,"nextStep":"Review this sample action card.","needs":["tutoring"],
+   "sources":[{"id":"demo-src-tutor","url":null,"title":"Sample record: Sample Tutoring Center","reviewedAt":"2026-10-16"}],
+   "facts":{"cost":{"status":"published","value":{"kind":"free"},"note":"","evidence":[{"sourceId":"demo-src-tutor","value":{"kind":"free"}}]},
+            "audience":{"status":"published","value":["enrolled_student"],"note":"","evidence":[{"sourceId":"demo-src-tutor","value":["enrolled_student"]}]}},
+   "unknown":["appointment_availability","location"],"windows":[{"weekday":1,"start":"13:00","end":"16:00"}],"event":null,"sample":true,"overdue":false},
+  {"id":"demo-tea","name":"Sample Quiet Games & Tea","category":"Events & involvement","kind":"event","description":"Fictional activity for testing a first-visit plan.","url":null,"nextStep":"Review this sample action card.","needs":["events_attend"],
+   "sources":[{"id":"demo-src-tea","url":null,"title":"Sample record: Sample Quiet Games & Tea","reviewedAt":"2026-10-16"}],
+   "facts":{"cost":{"status":"published","value":{"kind":"free"},"note":"","evidence":[{"sourceId":"demo-src-tea","value":{"kind":"free"}}]},
+            "location":{"status":"published","value":"Demo Lounge (fictional)","note":"","evidence":[{"sourceId":"demo-src-tea","value":"Demo Lounge (fictional)"}]}},
+   "unknown":["arrival_guidance"],"windows":[],"event":{"startsAt":"2026-10-22T14:00:00-04:00","endsAt":"2026-10-22T14:45:00-04:00","registration":"not_required"},"sample":true,"overdue":false},
+  {"id":"demo-workshop","name":"Sample Career Workshop","category":"Careers & work","kind":"event","description":"Fictional event that conflicts with a 4 p.m. departure.","url":null,"nextStep":"Review this sample action card.","needs":["career"],
+   "sources":[{"id":"demo-src-workshop","url":null,"title":"Sample record: Sample Career Workshop","reviewedAt":"2026-10-16"}],
+   "facts":{"cost":{"status":"published","value":{"kind":"free"},"note":"","evidence":[{"sourceId":"demo-src-workshop","value":{"kind":"free"}}]}},
+   "unknown":["location"],"windows":[],"event":{"startsAt":"2026-10-20T15:30:00-04:00","endsAt":"2026-10-20T16:30:00-04:00","registration":"required"},"sample":true,"overdue":false}
+]
