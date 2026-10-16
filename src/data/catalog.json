@@ -2053,9 +2053,9 @@
     "name": "Student Financial Services",
     "category": "Money & financial aid",
     "kind": "service",
-    "description": "Help with financial aid, billing, payments, and student-account questions.",
+    "description": "Help with financial aid, billing, payments, and student-account questions. UB's FAFSA school code is 001416.",
     "url": "https://www.bridgeport.edu/cost-financial-aid/financial-aid/",
-    "nextStep": "Contact SFS or use the billing and financial-aid routes in myUB.",
+    "nextStep": "File the FAFSA at studentaid.gov with UB's school code 001416, then contact SFS about your specific bill or aid question. Continuing students: reapply by March 1 for full consideration next year.",
     "needs": [
       "money",
       "support_housing"
@@ -2065,6 +2065,12 @@
         "id": "176d883dc2720ef224c2b677",
         "url": "https://www.bridgeport.edu/cost-financial-aid/financial-aid/",
         "title": "UB resource research: Student Financial Services",
+        "reviewedAt": "2026-10-16"
+      },
+      {
+        "id": "src-ub-catalog-sfs",
+        "url": "https://catalog.bridgeport.edu/content.php?catoid=9&navoid=528",
+        "title": "UB Catalog: Student Financial Services",
         "reviewedAt": "2026-10-16"
       }
     ],
@@ -2090,6 +2096,17 @@
             "value": "203-576-4568"
           }
         ]
+      },
+      "location": {
+        "status": "published",
+        "value": "126 Park Avenue, Bridgeport, CT 06604 (Wahlstrom Library building)",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-catalog-sfs",
+            "value": "126 Park Avenue, Bridgeport, CT 06604 (Wahlstrom Library building)"
+          }
+        ]
       }
     },
     "unknown": [
@@ -2100,7 +2117,6 @@
       "capacity",
       "cost",
       "documents",
-      "location",
       "modality",
       "psychiatric_services",
       "service_hours"
@@ -4994,6 +5010,860 @@
         "end": "21:00"
       }
     ],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "emergency-ask",
+    "name": "Emergency Money Problems — Who to Ask",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "UB does not publicly advertise an emergency loan or emergency grant fund, and this app will not invent one. What does exist: Student Financial Services can review a changed financial situation (job loss, family emergency) and re-evaluate aid, and the Dean of Students helps students in personal crises connect to every available support. The fastest move is one of those two conversations.",
+    "url": "https://catalog.bridgeport.edu/content.php?catoid=9&navoid=528",
+    "nextStep": "Call SFS at 203-576-4568 or the Dean of Students at 203-576-4392 and say: 'My financial situation changed — what options exist?'",
+    "needs": [
+      "money",
+      "support_unsure"
+    ],
+    "sources": [
+      {
+        "id": "src-ub-catalog-sfs",
+        "url": "https://catalog.bridgeport.edu/content.php?catoid=9&navoid=528",
+        "title": "UB Catalog: Student Financial Services",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "phone": {
+        "status": "published",
+        "value": "203-576-4568",
+        "note": "Student Financial Services; Dean of Students is 203-576-4392",
+        "evidence": [
+          {
+            "sourceId": "src-ub-catalog-sfs",
+            "value": "203-576-4568"
+          }
+        ]
+      },
+      "email": {
+        "status": "published",
+        "value": "sfs@bridgeport.edu",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-catalog-sfs",
+            "value": "sfs@bridgeport.edu"
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "cost",
+      "documents",
+      "location",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "payment-plans",
+    "name": "Tuition Payment Plans",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "Spread a semester balance across monthly payments instead of one lump sum. Per the UB Catalog: Fall offers a 5-pay plan (enroll by July 1) and a 4-pay plan (enroll by August 1); Spring a 5-pay (by Dec 1) and 4-pay (by Jan 1); Summer a 3-pay plan (by May 1). Students whose employer or sponsor pays tuition may qualify for a direct-billing/deferment option with a sponsor letter to SFS. Payment arrangements must be in place no later than two weeks before classes start.",
+    "url": "https://catalog.bridgeport.edu/content.php?catoid=9&navoid=527",
+    "nextStep": "Contact SFS (203-576-4568, sfs@bridgeport.edu) before the enrollment deadline for this semester's plan.",
+    "needs": [
+      "money"
+    ],
+    "sources": [
+      {
+        "id": "src-ub-catalog-tuition",
+        "url": "https://catalog.bridgeport.edu/content.php?catoid=9&navoid=527",
+        "title": "UB Catalog: tuition & fees",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "phone": {
+        "status": "published",
+        "value": "203-576-4568",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-catalog-tuition",
+            "value": "203-576-4568"
+          }
+        ]
+      },
+      "email": {
+        "status": "published",
+        "value": "sfs@bridgeport.edu",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-catalog-tuition",
+            "value": "sfs@bridgeport.edu"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "varies"
+        },
+        "note": "Installments of your balance; ask SFS about any enrollment fee and confirm current dates in the student portal",
+        "evidence": [
+          {
+            "sourceId": "src-ub-catalog-tuition",
+            "value": {
+              "kind": "varies"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "location",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "roberta-willis",
+    "name": "Roberta B. Willis Scholarship & Grant (Connecticut)",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "Connecticut's main state aid for CT residents at CT colleges (UB qualifies), in two parts. The need-based grant pays up to $4,500/year for full-time study — you apply just by filing the FAFSA. The need-merit scholarship pays up to $5,250/year (four-year programs) for students in the top 20% of their junior-year class and/or with SAT 1200+ / ACT 25+, with a Student Aid Index at or below the state's annual cutoff (10,999 for FY26); it requires a separate application submitted by the high school counselor by February 15.",
+    "url": "https://preview.ct.egov.com/-/media/sde/performance/fafsa/frequently-asked-questions--roberta-b-willis-need-merit-scholarship.pdf",
+    "nextStep": "File the FAFSA (UB code 001416) and ask SFS to confirm your Willis eligibility.",
+    "needs": [
+      "money"
+    ],
+    "sources": [
+      {
+        "id": "src-ct-ohe-willis",
+        "url": "https://preview.ct.egov.com/-/media/sde/performance/fafsa/frequently-asked-questions--roberta-b-willis-need-merit-scholarship.pdf",
+        "title": "CT Office of Higher Education: Roberta B. Willis FAQ",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "Grants/scholarships — no repayment; amounts are annual maximums and funding-dependent",
+        "evidence": [
+          {
+            "sourceId": "src-ct-ohe-willis",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      },
+      "audience": {
+        "status": "published",
+        "value": [
+          "Connecticut residents at a CT public or nonprofit private college, first bachelor's degree"
+        ],
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ct-ohe-willis",
+            "value": [
+              "Connecticut residents at a CT public or nonprofit private college, first bachelor's degree"
+            ]
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "capacity",
+      "documents",
+      "email",
+      "location",
+      "modality",
+      "phone",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "bridgeport-promise",
+    "name": "Bridgeport Promise",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "Scholarship support for Bridgeport Public Schools graduates attending partner Connecticut colleges, including UB. Reported terms for the Class of 2026: a minimum of $1,250/year, rising to $2,000/year for students living on campus, plus support services. Cohort terms change — confirm your class year's amount.",
+    "url": null,
+    "nextStep": "Ask SFS (203-576-4568) to confirm your cohort's Bridgeport Promise amount.",
+    "needs": [
+      "money"
+    ],
+    "sources": [
+      {
+        "id": "src-ub-news-promise",
+        "url": "",
+        "title": "UB news release (republished 2026)",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "audience": {
+        "status": "published",
+        "value": [
+          "Bridgeport Public Schools graduates at partner colleges"
+        ],
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-news-promise",
+            "value": [
+              "Bridgeport Public Schools graduates at partner colleges"
+            ]
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "Scholarship — no repayment. Amounts per a UB news release republished in 2026; verify current cohort terms with SFS",
+        "evidence": [
+          {
+            "sourceId": "src-ub-news-promise",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "capacity",
+      "documents",
+      "email",
+      "location",
+      "modality",
+      "phone",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "bridgeports-brightest",
+    "name": "Bridgeport's Brightest Scholarship (2024 Cohort)",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "A UB scholarship that reduced tuition to $7,000/year for commuters or $12,500/year for residential students (including room and board) for 2024 Bridgeport public high school graduates, renewable for four years. Listed so current recipients can find their program — it is not an open offer to new classes unless UB announces a new cohort.",
+    "url": "https://onlyinbridgeport.com/wordpress/bridgeports-brightest-scholarship-to-provide-big-savings-to-attend-ub/",
+    "nextStep": "Recipients: confirm your renewal terms with SFS (203-576-4568).",
+    "needs": [
+      "money"
+    ],
+    "sources": [
+      {
+        "id": "src-oib-brightest",
+        "url": "https://onlyinbridgeport.com/wordpress/bridgeports-brightest-scholarship-to-provide-big-savings-to-attend-ub/",
+        "title": "Only in Bridgeport: report of UB announcement",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "audience": {
+        "status": "published",
+        "value": [
+          "2024 Bridgeport public high school graduates who received the award"
+        ],
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-oib-brightest",
+            "value": [
+              "2024 Bridgeport public high school graduates who received the award"
+            ]
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "Scholarship; cohort-specific 2024 terms",
+        "evidence": [
+          {
+            "sourceId": "src-oib-brightest",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "capacity",
+      "documents",
+      "email",
+      "location",
+      "modality",
+      "phone",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "graduate-assistantships",
+    "name": "Graduate Assistantships",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "Paid teaching, research, and administrative assistantship positions for UB graduate students, processed with Student Employment. A major funding lever many grad students never hear about in time.",
+    "url": "https://catalog.bridgeport.edu/content.php?catoid=4&navoid=242",
+    "nextStep": "Call the Office of Graduate Assistantships at 203-576-4111 and ask what is open in your program.",
+    "needs": [
+      "money",
+      "career"
+    ],
+    "sources": [
+      {
+        "id": "src-ub-catalog-studentaffairs",
+        "url": "https://catalog.bridgeport.edu/content.php?catoid=4&navoid=242",
+        "title": "UB Catalog: student affairs",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "phone": {
+        "status": "published",
+        "value": "203-576-4111",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-catalog-studentaffairs",
+            "value": "203-576-4111"
+          }
+        ]
+      },
+      "audience": {
+        "status": "published",
+        "value": [
+          "UB graduate students"
+        ],
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-catalog-studentaffairs",
+            "value": [
+              "UB graduate students"
+            ]
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "capacity",
+      "cost",
+      "documents",
+      "email",
+      "location",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-work-study",
+    "name": "Community Work Study",
+    "category": "Careers & work",
+    "kind": "service",
+    "description": "Federal Work-Study placements with off-campus community organizations across Bridgeport, coordinated through UB's Office of Civic Engagement — the same work-study award, with experience and local connections attached.",
+    "url": null,
+    "nextStep": "Email civicengagement@bridgeport.edu or call 475-422-1065 and ask about community placements for your award.",
+    "needs": [
+      "career",
+      "money"
+    ],
+    "sources": [
+      {
+        "id": "src-ub-heckman-cws",
+        "url": "",
+        "title": "UB Catalog / Heckman Center materials",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "email": {
+        "status": "published",
+        "value": "civicengagement@bridgeport.edu",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-heckman-cws",
+            "value": "civicengagement@bridgeport.edu"
+          }
+        ]
+      },
+      "phone": {
+        "status": "published",
+        "value": "475-422-1065",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-heckman-cws",
+            "value": "475-422-1065"
+          }
+        ]
+      },
+      "audience": {
+        "status": "published",
+        "value": [
+          "UB students with a Federal Work-Study award"
+        ],
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-heckman-cws",
+            "value": [
+              "UB students with a Federal Work-Study award"
+            ]
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "capacity",
+      "cost",
+      "documents",
+      "location",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-alliance",
+    "name": "Alliance for Community Empowerment (formerly ABCD)",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "Greater Bridgeport's Community Action Agency and the front door for most off-campus money help: energy assistance and emergency fuel (CEAP applications), emergency rental/mortgage payment, eviction prevention and mediation, matching payment programs, financial counseling, free income tax preparation, and case management. Serves Bridgeport, Easton, Fairfield, Monroe, Stratford, and Trumbull.",
+    "url": "https://alliancect.org/",
+    "nextStep": "Call 203-366-8241 and describe your situation (rent, heat, shutoff notice) — or call 2-1-1 for a referral.",
+    "needs": [
+      "money",
+      "support_housing"
+    ],
+    "sources": [
+      {
+        "id": "src-cafca-alliance",
+        "url": "",
+        "title": "CT Association for Community Action agency listing",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "location": {
+        "status": "published",
+        "value": "1070 Park Avenue, Bridgeport, CT 06604",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-cafca-alliance",
+            "value": "1070 Park Avenue, Bridgeport, CT 06604"
+          }
+        ]
+      },
+      "phone": {
+        "status": "published",
+        "value": "203-366-8241",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-cafca-alliance",
+            "value": "203-366-8241"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-cafca-alliance",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      },
+      "audience": {
+        "status": "published",
+        "value": [
+          "Low-income residents of the greater Bridgeport area; eligibility varies by program"
+        ],
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-cafca-alliance",
+            "value": [
+              "Low-income residents of the greater Bridgeport area; eligibility varies by program"
+            ]
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "capacity",
+      "documents",
+      "email",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-ceap",
+    "name": "CEAP — Help Paying Heating & Utility Bills",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "The Connecticut Energy Assistance Program helps low-income renters and homeowners (generally up to 60% of state median income) pay for oil, gas, electric, propane, and other heating costs. In Bridgeport you apply through the Alliance for Community Empowerment.",
+    "url": "https://portal.ct.gov/heatinghelp",
+    "nextStep": "Text CTWARM to 898211 or call 2-1-1, or apply through the Alliance (203-366-8241).",
+    "needs": [
+      "money",
+      "support_housing"
+    ],
+    "sources": [
+      {
+        "id": "src-ct-heatinghelp",
+        "url": "https://portal.ct.gov/heatinghelp",
+        "title": "CT heating help portal",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "Benefit program",
+        "evidence": [
+          {
+            "sourceId": "src-ct-heatinghelp",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      },
+      "audience": {
+        "status": "published",
+        "value": [
+          "CT households meeting income guidelines — including students who pay their own heat/utilities off campus"
+        ],
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ct-heatinghelp",
+            "value": [
+              "CT households meeting income guidelines — including students who pay their own heat/utilities off campus"
+            ]
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "capacity",
+      "documents",
+      "email",
+      "location",
+      "modality",
+      "phone",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-operation-fuel",
+    "name": "Operation Fuel — Utility Assistance",
+    "category": "Money & financial aid",
+    "kind": "service",
+    "description": "A second utility-help door when CEAP is closed or exhausted: grants toward electricity, gas, and deliverable fuel costs, applied for through local partner agencies.",
+    "url": "https://operationfuel.org",
+    "nextStep": "Call 860-243-2345 or ask 2-1-1 to route you to a local Operation Fuel partner.",
+    "needs": [
+      "money",
+      "support_housing"
+    ],
+    "sources": [
+      {
+        "id": "src-operation-fuel",
+        "url": "https://operationfuel.org",
+        "title": "Operation Fuel",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "phone": {
+        "status": "published",
+        "value": "860-243-2345",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-operation-fuel",
+            "value": "860-243-2345"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "Grant benefit",
+        "evidence": [
+          {
+            "sourceId": "src-operation-fuel",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "location",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-housing-can",
+    "name": "Housing Crisis Line — Coordinated Access Network",
+    "category": "Housing & commuting",
+    "kind": "service",
+    "description": "The single entry point for anyone facing homelessness or eviction in Fairfield County. The Coordinated Access Network assesses your situation and refers to shelter, rapid rehousing, and prevention help.",
+    "url": "https://www.211ct.org",
+    "nextStep": "Call 2-1-1, choose Option 3 then Option 1 — or dial 1-800-203-1234.",
+    "needs": [
+      "support_housing",
+      "money"
+    ],
+    "sources": [
+      {
+        "id": "src-ct-can",
+        "url": "https://portal.ct.gov",
+        "title": "CT Coordinated Access Network materials",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "phone": {
+        "status": "published",
+        "value": "1-800-203-1234",
+        "note": "Or dial 2-1-1, Option 3 then Option 1",
+        "evidence": [
+          {
+            "sourceId": "src-ct-can",
+            "value": "1-800-203-1234"
+          }
+        ]
+      },
+      "access": {
+        "status": "published",
+        "value": "Phone intake, 24/7 via 2-1-1",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ct-can",
+            "value": "Phone intake, 24/7 via 2-1-1"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ct-can",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "location",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-unitect",
+    "name": "UniteCT & MyHomeCT",
+    "category": "Housing & commuting",
+    "kind": "service",
+    "description": "UniteCT connects Connecticut renters facing eviction with help and legal resources. MyHomeCT, run by the CT Housing Finance Authority, is the state's home for mortgage and homeowner assistance — most relevant for students supporting family households.",
+    "url": "https://www.chfa.org/myhomect/",
+    "nextStep": "Renters facing eviction: call UniteCT at 1-844-864-8328. Homeowners: call CHFA at 877-894-4111.",
+    "needs": [
+      "support_housing",
+      "money"
+    ],
+    "sources": [
+      {
+        "id": "src-chfa",
+        "url": "https://www.chfa.org/myhomect/",
+        "title": "CHFA / CT state program listings",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "phone": {
+        "status": "published",
+        "value": "1-844-864-8328",
+        "note": "UniteCT; CHFA MyHomeCT is 877-894-4111",
+        "evidence": [
+          {
+            "sourceId": "src-chfa",
+            "value": "1-844-864-8328"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-chfa",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "location",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
     "event": null,
     "sample": false,
     "overdue": false
