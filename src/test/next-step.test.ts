@@ -36,8 +36,8 @@ describe("fact labels", () => {
 });
 
 describe("demo switch", () => {
-  it("catalog has 91 real resources", () => {
-    expect(REAL).toHaveLength(91);
+  it("catalog has 98 real resources", () => {
+    expect(REAL).toHaveLength(98);
   });
   it("demo records only appear when the switch is on", () => {
     expect(rankOptions(food, {}, false).some((x) => x.resource.sample)).toBe(false);

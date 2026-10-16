@@ -2635,7 +2635,7 @@
     "name": "Wheeler Recreation & intramurals",
     "category": "Events & involvement",
     "kind": "service",
-    "description": "Recreation, fitness, and intramural information for the UB community.",
+    "description": "Recreation, fitness, and intramural information for the UB community. Intramural leagues by season — Fall: co-ed soccer, co-ed volleyball, cricket, flag football. Spring: 3-on-3 and 5-on-5 basketball, co-ed volleyball, cricket. Fitness classes have included Zumba, MixxedFit, yoga, and CrossFit-style training.",
     "url": "https://www.bridgeport.edu/student-affairs/student-involvement/recreation",
     "nextStep": "Check current facility hours and activity sign-up instructions.",
     "needs": [
@@ -2647,17 +2647,45 @@
         "url": "https://www.bridgeport.edu/student-affairs/student-involvement/recreation",
         "title": "UB resource research: Wheeler Recreation & intramurals",
         "reviewedAt": "2026-10-16"
+      },
+      {
+        "id": "src-ub-campusrec-hours",
+        "url": "https://bridgeport.prestosports.com/sports/campusrec-hours-fall25",
+        "title": "UB Athletics: campus recreation hours (updated 2026-09-21)",
+        "reviewedAt": "2026-10-16"
       }
     ],
     "facts": {
       "phone": {
         "status": "published",
         "value": "203-576-4460",
-        "note": "",
+        "note": "Wheeler front desk",
         "evidence": [
           {
-            "sourceId": "4aa9ff01060dabef8ef2b67b",
+            "sourceId": "src-ub-campusrec-hours",
             "value": "203-576-4460"
+          }
+        ]
+      },
+      "service_hours": {
+        "status": "published",
+        "value": "Fall 2026: Mon & Wed 6:30 a.m.-10 p.m.; Tue, Thu, Fri 9 a.m.-10 p.m.; Sat-Sun 11 a.m.-5 p.m.",
+        "note": "Hours change by semester and break; open swim hours are posted at the front desk and pool.",
+        "evidence": [
+          {
+            "sourceId": "src-ub-campusrec-hours",
+            "value": "Fall 2026: Mon & Wed 6:30 a.m.-10 p.m.; Tue, Thu, Fri 9 a.m.-10 p.m.; Sat-Sun 11 a.m.-5 p.m."
+          }
+        ]
+      },
+      "email": {
+        "status": "published",
+        "value": "dagraham@bridgeport.edu",
+        "note": "Director of Wheeler Recreation Center & Campus Recreation",
+        "evidence": [
+          {
+            "sourceId": "src-ub-campusrec-hours",
+            "value": "dagraham@bridgeport.edu"
           }
         ]
       }
@@ -2670,13 +2698,47 @@
       "capacity",
       "cost",
       "documents",
-      "email",
       "location",
       "modality",
-      "psychiatric_services",
-      "service_hours"
+      "psychiatric_services"
     ],
-    "windows": [],
+    "windows": [
+      {
+        "weekday": 0,
+        "start": "06:30",
+        "end": "22:00"
+      },
+      {
+        "weekday": 1,
+        "start": "09:00",
+        "end": "22:00"
+      },
+      {
+        "weekday": 2,
+        "start": "06:30",
+        "end": "22:00"
+      },
+      {
+        "weekday": 3,
+        "start": "09:00",
+        "end": "22:00"
+      },
+      {
+        "weekday": 4,
+        "start": "09:00",
+        "end": "22:00"
+      },
+      {
+        "weekday": 5,
+        "start": "11:00",
+        "end": "17:00"
+      },
+      {
+        "weekday": 6,
+        "start": "11:00",
+        "end": "17:00"
+      }
+    ],
     "event": null,
     "sample": false,
     "overdue": false
@@ -5860,6 +5922,526 @@
       "email",
       "location",
       "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "athletics",
+    "name": "UB Purple Knights Athletics",
+    "category": "Events & involvement",
+    "kind": "service",
+    "description": "UB's NCAA Division II teams — men's baseball, basketball, cross country, track & field, lacrosse, soccer; women's basketball, cross country, gymnastics, track & field, lacrosse, soccer, softball, volleyball. Home games at Harvey Hubbell Gymnasium (2,500 seats) and campus fields are the center of Purple Knight Nation school spirit and an easy free social plan.",
+    "url": "https://www.ubknights.com",
+    "nextStep": "Check the schedules on ubknights.com and pick the next home game.",
+    "needs": [
+      "events_attend"
+    ],
+    "sources": [
+      {
+        "id": "src-ubknights",
+        "url": "https://www.ubknights.com",
+        "title": "UB Athletics (ubknights.com)",
+        "reviewedAt": "2026-10-16"
+      },
+      {
+        "id": "src-ub-campusrec-hours",
+        "url": "https://bridgeport.prestosports.com/sports/campusrec-hours-fall25",
+        "title": "UB Athletics: campus recreation hours (updated 2026-09-21)",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "location": {
+        "status": "published",
+        "value": "Harvey Hubbell Gymnasium and campus fields, University of Bridgeport",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ubknights",
+            "value": "Harvey Hubbell Gymnasium and campus fields, University of Bridgeport"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "Students typically free with UB ID — confirm the ticket policy per sport",
+        "evidence": [
+          {
+            "sourceId": "src-ubknights",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "modality",
+      "phone",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "alley-esports",
+    "name": "The Alley Bowling & eSports Lounge",
+    "category": "Events & involvement",
+    "kind": "service",
+    "description": "On-campus bowling lanes and a dedicated eSports Lounge with gaming stations in the John J. Cox Student Center, run by Campus Recreation — open play for students and staff, plus bowling tournaments. The 'something to do tonight without leaving campus' option.",
+    "url": "https://bridgeport.prestosports.com/sports/campusrec-hours-fall25",
+    "nextStep": "Head to the Cox Student Center between 6 and 10 p.m., Tuesday through Saturday.",
+    "needs": [
+      "events_attend"
+    ],
+    "sources": [
+      {
+        "id": "src-ub-campusrec-hours",
+        "url": "https://bridgeport.prestosports.com/sports/campusrec-hours-fall25",
+        "title": "UB Athletics: campus recreation hours (updated 2026-09-21)",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "location": {
+        "status": "published",
+        "value": "John J. Cox Student Center, 244 University Avenue, Bridgeport",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-campusrec-hours",
+            "value": "John J. Cox Student Center, 244 University Avenue, Bridgeport"
+          }
+        ]
+      },
+      "service_hours": {
+        "status": "published",
+        "value": "Fall & spring semesters: Tuesday-Saturday, 6:00-10:00 p.m. (both The Alley and the eSports Lounge)",
+        "note": "eSports team practices may shift lounge hours; hours also posted outside the lounge",
+        "evidence": [
+          {
+            "sourceId": "src-ub-campusrec-hours",
+            "value": "Fall & spring semesters: Tuesday-Saturday, 6:00-10:00 p.m. (both The Alley and the eSports Lounge)"
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "cost",
+      "documents",
+      "email",
+      "modality",
+      "phone",
+      "psychiatric_services"
+    ],
+    "windows": [
+      {
+        "weekday": 1,
+        "start": "18:00",
+        "end": "22:00"
+      },
+      {
+        "weekday": 2,
+        "start": "18:00",
+        "end": "22:00"
+      },
+      {
+        "weekday": 3,
+        "start": "18:00",
+        "end": "22:00"
+      },
+      {
+        "weekday": 4,
+        "start": "18:00",
+        "end": "22:00"
+      },
+      {
+        "weekday": 5,
+        "start": "18:00",
+        "end": "22:00"
+      }
+    ],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "cox-center",
+    "name": "Cox Student Center — Social Spaces",
+    "category": "Events & involvement",
+    "kind": "place",
+    "description": "The living room of campus: the Social Room (seats 400; dances, concerts, semi-formals, movies, fashion shows), Knight's End café and study pods, the Commuter Lounge, lounges and meeting rooms, and the offices of SGA, the Student Programming Board, and many clubs. Club tabling also happens at The HUB in the Marina Dining Hall building at meal times.",
+    "url": "https://www.bridgeport.edu/student-affairs/commuter-students/spaces",
+    "nextStep": "Walk into Cox and check the Social Room and lounge boards — or ask at the Knight's End counter what's on this week.",
+    "needs": [
+      "events_attend",
+      "events_organize"
+    ],
+    "sources": [
+      {
+        "id": "src-ub-catalog-facilities",
+        "url": "",
+        "title": "UB Catalog: facilities",
+        "reviewedAt": "2026-10-16"
+      },
+      {
+        "id": "src-ub-commuter-spaces",
+        "url": "https://www.bridgeport.edu/student-affairs/commuter-students/spaces",
+        "title": "UB commuter student spaces",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "location": {
+        "status": "published",
+        "value": "John J. Cox Student Center, 244 University Avenue, Bridgeport",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-commuter-spaces",
+            "value": "John J. Cox Student Center, 244 University Avenue, Bridgeport"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-ub-commuter-spaces",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "modality",
+      "phone",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-seaside",
+    "name": "Seaside Park",
+    "category": "Events & involvement",
+    "kind": "place",
+    "description": "A 2.5-mile crescent of park and beach on Long Island Sound directly beside campus, past the Perry Arch. Lifeguarded swimming beach in season, walking paths, sports fields, picnic areas, and the walk out toward the Fayerweather Island lighthouse — the default free outdoor plan for UB students.",
+    "url": "https://www.bridgeportct.gov/content/341307/341415/342203.aspx",
+    "nextStep": "Walk in from campus through the Perry Arch — free on foot. Vehicle entry is pass/fee-based in season.",
+    "needs": [
+      "events_attend"
+    ],
+    "sources": [
+      {
+        "id": "src-bpt-seaside",
+        "url": "https://www.bridgeportct.gov/content/341307/341415/342203.aspx",
+        "title": "City of Bridgeport: Seaside Park",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "location": {
+        "status": "published",
+        "value": "1 Barnum Dyke / Waldemere Avenue, Bridgeport — adjacent to campus",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-bpt-seaside",
+            "value": "1 Barnum Dyke / Waldemere Avenue, Bridgeport — adjacent to campus"
+          }
+        ]
+      },
+      "phone": {
+        "status": "published",
+        "value": "203-576-7233",
+        "note": "Bridgeport Parks & Recreation",
+        "evidence": [
+          {
+            "sourceId": "src-bpt-seaside",
+            "value": "203-576-7233"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "Free on foot; seasonal vehicle parking pass fees apply",
+        "evidence": [
+          {
+            "sourceId": "src-bpt-seaside",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-cabaret",
+    "name": "Downtown Cabaret Theatre",
+    "category": "Events & involvement",
+    "kind": "place",
+    "description": "Long-running downtown theatre (musicals, concerts, children's shows) with cabaret table seating where audiences can bring their own food and drinks — a genuinely student-budget-friendly night out a few minutes from campus.",
+    "url": "http://dtcab.com/",
+    "nextStep": "Check dtcab.com for the current show and call the box office at 203-576-1636.",
+    "needs": [
+      "events_attend"
+    ],
+    "sources": [
+      {
+        "id": "src-dtcab",
+        "url": "http://dtcab.com/",
+        "title": "Downtown Cabaret Theatre",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "location": {
+        "status": "published",
+        "value": "263 Golden Hill Street, Bridgeport",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-dtcab",
+            "value": "263 Golden Hill Street, Bridgeport"
+          }
+        ]
+      },
+      "phone": {
+        "status": "published",
+        "value": "203-576-1636",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-dtcab",
+            "value": "203-576-1636"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "varies"
+        },
+        "note": "Tickets listed from about $23 in directory data — confirm current pricing",
+        "evidence": [
+          {
+            "sourceId": "src-dtcab",
+            "value": {
+              "kind": "varies"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-bijou",
+    "name": "The Bijou Theatre",
+    "category": "Events & involvement",
+    "kind": "place",
+    "description": "Historic 190-seat downtown venue mixing live music, comedy nights, candlelight concerts, and indie film screenings, with cabaret-style tables and a café/bar.",
+    "url": "http://www.bijoutheatrect.net/",
+    "nextStep": "Open the Bijou calendar and pick a show night.",
+    "needs": [
+      "events_attend"
+    ],
+    "sources": [
+      {
+        "id": "src-bijou",
+        "url": "http://www.bijoutheatrect.net/",
+        "title": "The Bijou Theatre",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "location": {
+        "status": "published",
+        "value": "275 Fairfield Avenue, Bridgeport",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-bijou",
+            "value": "275 Fairfield Avenue, Bridgeport"
+          }
+        ]
+      },
+      "phone": {
+        "status": "published",
+        "value": "203-296-2875",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-bijou",
+            "value": "203-296-2875"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "varies"
+        },
+        "note": "Moderately priced tickets; see the venue calendar",
+        "evidence": [
+          {
+            "sourceId": "src-bijou",
+            "value": {
+              "kind": "varies"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "modality",
+      "psychiatric_services",
+      "service_hours"
+    ],
+    "windows": [],
+    "event": null,
+    "sample": false,
+    "overdue": false
+  },
+  {
+    "id": "community-mclevy",
+    "name": "McLevy Green & Downtown Bridgeport Events",
+    "category": "Events & involvement",
+    "kind": "place",
+    "description": "Downtown's green hosts seasonal free programming — a weekly farmers market in season, a summer concert series, and the holiday tree lighting. A good 'what's on downtown this week' pointer alongside the city's parks and recreation pages.",
+    "url": "https://www.bridgeportct.gov/government/departments/parks-recreation",
+    "nextStep": "Check the Bridgeport Parks & Recreation page for this season's downtown schedule.",
+    "needs": [
+      "events_attend"
+    ],
+    "sources": [
+      {
+        "id": "src-bpt-parks",
+        "url": "https://www.bridgeportct.gov/government/departments/parks-recreation",
+        "title": "City of Bridgeport Parks & Recreation",
+        "reviewedAt": "2026-10-16"
+      }
+    ],
+    "facts": {
+      "location": {
+        "status": "published",
+        "value": "102 Bank Street, Bridgeport (downtown)",
+        "note": "",
+        "evidence": [
+          {
+            "sourceId": "src-bpt-parks",
+            "value": "102 Bank Street, Bridgeport (downtown)"
+          }
+        ]
+      },
+      "cost": {
+        "status": "published",
+        "value": {
+          "kind": "free"
+        },
+        "note": "Events free; market purchases extra",
+        "evidence": [
+          {
+            "sourceId": "src-bpt-parks",
+            "value": {
+              "kind": "free"
+            }
+          }
+        ]
+      }
+    },
+    "unknown": [
+      "access",
+      "appointment_availability",
+      "arrival_guidance",
+      "audience",
+      "capacity",
+      "documents",
+      "email",
+      "modality",
+      "phone",
       "psychiatric_services",
       "service_hours"
     ],
