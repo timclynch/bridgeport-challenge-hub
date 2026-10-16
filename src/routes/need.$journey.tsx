@@ -186,7 +186,7 @@ function Compare({ journey, prefs, selected, go }: { journey: J; prefs: Record<s
           />
         ))}
         <p className="text-sm text-muted-foreground">
-          None of these right? <button className="font-semibold text-primary underline" onClick={() => go({ step: "card", r: "student-affairs" })}>Start with Student Affairs</button>, a general contact.
+          None of these right? <button className="font-semibold text-primary underline" onClick={() => go({ step: "card", r: "affairs" })}>Start with Student Affairs</button>, a general contact.
         </p>
       </div>
       {sel && (
@@ -210,7 +210,7 @@ function Compare({ journey, prefs, selected, go }: { journey: J; prefs: Record<s
 function CardStep({ journey, r, prefs, msg, contact, go }: { journey: J; r: Resource | undefined; prefs: Record<string, string>; msg: string; contact: boolean; go: (p: Partial<Search>) => void }) {
   const { update } = useSteps();
   const [goal, setGoal] = useState(msg);
-  const [qs, setQs] = useState(() => [...journey.confirmQs, ...(r ? unresolved(r).slice(0, 2).map((u) => `What are the ${u.toLowerCase()}?`.replace("the location?", "the current location?")) : [])]);
+  const [qs, setQs] = useState(() => [...journey.confirmQs, ...(r ? unresolved(r).slice(0, 2).map((u) => `Can you confirm the ${u.toLowerCase()}?`) : [])]);
   const [checked, setChecked] = useState<Set<string>>(() => new Set(journey.confirmQs));
   const [newQ, setNewQ] = useState("");
   const [toast, setToast] = useState<string | null>(null);

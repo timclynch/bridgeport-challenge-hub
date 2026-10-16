@@ -3,11 +3,13 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { Footprints, Phone, X } from "lucide-react";
 import { useSteps } from "@/lib/steps";
+import { useDemo } from "@/data/resources";
 import { cn } from "@/lib/utils";
 
 export function Shell({ children, className }: { children: ReactNode; className?: string }) {
   const { steps } = useSteps();
   const [urgent, setUrgent] = useState(false);
+  const [demo, setDemo] = useDemo();
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur">
@@ -32,6 +34,13 @@ export function Shell({ children, className }: { children: ReactNode; className?
               My next steps · {steps.length}
             </Link>
             <button
+              onClick={() => setDemo(!demo)}
+              aria-pressed={demo}
+              className={cn("hidden rounded-md px-3 py-2 text-xs font-semibold md:block", demo ? "bg-danger-soft text-danger" : "text-muted-foreground hover:bg-muted")}
+            >
+              Demo {demo ? "on" : "off"}
+            </button>
+            <button
               onClick={() => setUrgent(true)}
               className="rounded-md px-3 py-2 font-semibold text-danger hover:bg-danger-soft"
             >
@@ -40,6 +49,7 @@ export function Shell({ children, className }: { children: ReactNode; className?
           </nav>
         </div>
       </header>
+      {demo && <div className="bg-danger-soft py-1.5 text-center text-xs font-semibold text-danger">Demo on — fictional sample records are mixed in and labeled “Sample data”. <button className="underline" onClick={() => setDemo(false)}>Turn off</button></div>}
       <main className={cn("mx-auto w-full max-w-6xl flex-1 px-4 py-6", className)}>{children}</main>
       <footer className="border-t border-border py-4 text-center text-xs text-muted-foreground">
         Next Step · CT Data × University of Bridgeport · Details come from public research — always confirm with the office.
@@ -52,7 +62,8 @@ export function Shell({ children, className }: { children: ReactNode; className?
 function UrgentHelp({ onClose }: { onClose: () => void }) {
   const rows = [
     { label: "Call 911", sub: "Immediate danger or medical emergency", href: "tel:911", strong: true },
-    { label: "UB Campus Security · 203-576-4911", sub: "Campus emergency response (number from mockup — confirm)", href: "tel:2035764911", strong: true },
+    { label: "UB Campus Security emergency · 203-576-4911", sub: "Immediate campus response (from mockup — confirm)", href: "tel:2035764911", strong: true },
+    { label: "Campus Security info · 203-576-4913", sub: "Non-urgent contact, Norseman Hall (from catalog)", href: "tel:2035764913", strong: false },
     { label: "988 Suicide & Crisis Lifeline", sub: "Call or text 988, 24/7, free and confidential", href: "tel:988", strong: false },
     { label: "CT 2-1-1", sub: "Food, housing and crisis help across Connecticut", href: "tel:211", strong: false },
   ];
