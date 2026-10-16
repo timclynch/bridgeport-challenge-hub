@@ -8,6 +8,7 @@ A chat assistant that helps UB students turn a need into a clear next step, base
 - The assistant answers with UB-specific options (e.g. Knights Pantry, counseling, Heckman, Handshake jobs, KnightLife events), asks one clarifying question when needed, suggests one manageable next step, and flags details to confirm with the office instead of guessing (per the research's conflicting-info findings).
 - Cards hide once the conversation starts; a "New chat" button resets.
 - One conversation, not saved between visits (can add saving later).
+- Co-branded "CT Data x University of Bridgeport": both names in the header and footer, page title and sharing text use both. Text-based wordmarks for now; I'll swap in official logos if you upload them.
 - Look: UB-inspired deep blue with a warm gold accent, friendly distinctive fonts, works on phones.
 
 ## Technical details
