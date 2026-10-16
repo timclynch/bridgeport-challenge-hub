@@ -38,7 +38,7 @@ function Browse() {
     <Shell>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-semibold text-foreground">Browse resources</h1>
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-foreground">Resources</h1>
           <p className="mt-1 text-sm text-muted-foreground">No preferences set, so fit can’t be compared. {list.length} of {all.length} offices and services.</p>
         </div>
         <label className="flex items-center gap-2 text-sm font-medium text-foreground">

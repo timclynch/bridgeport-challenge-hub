@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { fit, JOURNEYS, rankOptions } from "@/data/journeys";
 import { DEMO, REAL, factLabel, getFact, getResource } from "@/data/resources";
 import { addStep, removeStep, restoreStep, type Step } from "@/lib/steps";
+import { greetingFor, readProfile, writeProfile } from "@/lib/profile";
 
 const food = JOURNEYS.food;
 const demoPantry = DEMO.find((r) => r.id === "demo-pantry")!;
@@ -46,6 +47,16 @@ describe("demo switch", () => {
 });
 
 const s = (id: string): Step => ({ id, journey: "food", resourceId: "p", title: id, goal: "", questions: [], status: "deciding", note: "", sensitive: false });
+
+describe("profile", () => {
+  it("stores a preferred name without an account", () => {
+    writeProfile({ name: "Zeb", school: "ub" });
+    expect(readProfile()).toEqual({ name: "Zeb", school: "ub" });
+  });
+  it("greets by time of day", () => {
+    expect(greetingFor(new Date("2026-10-16T15:00:00"))).toBe("Good afternoon");
+  });
+});
 
 describe("saved steps", () => {
   it("remove then undo restores the card in its place", () => {

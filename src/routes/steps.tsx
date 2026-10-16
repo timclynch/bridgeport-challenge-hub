@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, ChevronUp, EyeOff, Eye } from "lucide-react";
+import { Bookmark, ChevronDown, ChevronUp, Eye, EyeOff, Laptop, Search } from "lucide-react";
+import { Mascot } from "@/components/next/brand";
 import { Shell, Badge, btn } from "@/components/next/shell";
 import { useSteps, removeStep, restoreStep, moveStep, updateStep, STATUS_LABEL, type StepStatus, type Removed } from "@/lib/steps";
 import { getResource } from "@/data/resources";
@@ -24,11 +25,15 @@ function StepsPage() {
 
   return (
     <Shell className="max-w-3xl">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="font-display text-3xl font-semibold text-foreground">My next steps</h1>
-          <p className="text-sm text-muted-foreground">Saved on this device only. Order set by you — Next Step doesn’t rank needs.</p>
-        </div>
+      <div className="relative">
+        <Mascot className="pointer-events-none absolute -right-2 -top-6 hidden w-40 md:block" />
+        <h1 className="font-display text-4xl font-extrabold tracking-tight">
+          My next <span className="text-primary">steps</span>
+        </h1>
+        <p className="mt-1 text-muted-foreground">Pick up where you left off.</p>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs text-muted-foreground">Saved on this device. Saving does not place an order or book an appointment.</p>
         <button className={btn.ghost} onClick={() => setHide((v) => !v)}>
           {hide ? <Eye className="size-4" /> : <EyeOff className="size-4" />} {hide ? "Show details" : "Hide sensitive details"}
         </button>
@@ -43,21 +48,24 @@ function StepsPage() {
       )}
 
       {steps.length === 0 ? (
-        <div className="mt-8 rounded-2xl border border-dashed border-border p-8 text-center">
-          <p className="text-muted-foreground">No saved steps yet.</p>
-          <Link to="/" className={btn.primary + " mt-4"}>Start with a need</Link>
+        <div className="mt-8 rounded-[1.5rem] border border-dashed border-border p-8 text-center">
+          <p className="text-muted-foreground">No saved steps yet. Find a resource and save its card here.</p>
+          <Link to="/" className={btn.primary + " mt-4"}><Search className="size-4" /> Find another next step</Link>
         </div>
       ) : (
         <ol className="mt-6 space-y-4">
           {steps.map((s, i) => {
             const masked = hide && s.sensitive;
             return (
-              <li key={s.id} className="space-y-3 rounded-2xl border border-border bg-card p-5 shadow-card">
+              <li key={s.id} className="space-y-3 rounded-[1.5rem] border border-primary/30 bg-card/50 p-5 shadow-card">
                 <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{i + 1} · {masked ? "Private step" : s.journey}{s.sample && <span className="ml-2 rounded-full bg-danger-soft px-2 py-0.5 normal-case text-danger">Sample data · fictional</span>}</p>
-                    <h2 className="font-display text-xl font-semibold text-card-foreground">{masked ? "Saved for you to review" : s.title}</h2>
-                    {!masked && <p className="text-sm text-muted-foreground">{s.goal}</p>}
+                  <div className="flex items-start gap-3">
+                    <span className="grid size-12 place-items-center rounded-2xl bg-primary/15 text-primary"><Bookmark className="size-5" /></span>
+                    <div>
+                      <h2 className="font-display text-xl font-bold">{masked ? "Saved for you to review" : s.title}</h2>
+                      {!masked && <p className="text-sm text-muted-foreground">{s.goal || "Check options"}</p>}
+                      <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground"><Laptop className="size-3.5" /> Saved on this device</p>
+                    </div>
                   </div>
                   <div className="flex flex-col">
                     <button aria-label="Move up" disabled={i === 0} onClick={() => update((l) => moveStep(l, s.id, -1))} className="rounded p-1 text-muted-foreground hover:bg-muted disabled:opacity-30"><ChevronUp className="size-4" /></button>
@@ -73,7 +81,6 @@ function StepsPage() {
                           <Badge tone={s.status === st ? "success" : "muted"}>{STATUS_LABEL[st]}</Badge>
                         </button>
                       ))}
-                      <span className="text-xs text-muted-foreground">· self-reported</span>
                     </div>
                     {s.questions.length > 0 && (
                       <ul className="text-sm text-foreground">{s.questions.map((q) => <li key={q}>• {q}</li>)}</ul>
@@ -82,8 +89,8 @@ function StepsPage() {
                       <input
                         defaultValue={s.note}
                         onBlur={(e) => update((l) => updateStep(l, s.id, { note: e.target.value }))}
-                        placeholder="What was confirmed, and by whom? e.g. Appointment Tue 10 a.m., by office email"
-                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+                        placeholder="What was confirmed, and by whom?"
+                        className="w-full rounded-lg border border-input bg-background/40 px-3 py-2 text-sm outline-none focus:border-primary"
                       />
                     )}
                     {s.status === "contacted" && <NoReply journey={s.journey} resourceId={s.resourceId} />}
@@ -91,14 +98,19 @@ function StepsPage() {
                 )}
                 <div className="flex flex-wrap gap-2">
                   {!masked && getResource(s.resourceId) && (
-                    <Link to="/need/$journey" params={{ journey: s.journey }} search={{ step: "card", r: s.resourceId, msg: s.goal }} className={btn.ghost}>Open card</Link>
+                    <Link to="/need/$journey" params={{ journey: s.journey }} search={{ step: "card", r: s.resourceId, msg: s.goal }} className={btn.primary}>
+                      View next step
+                    </Link>
                   )}
-                  <button className={btn.ghost + " text-danger"} onClick={() => { let rm: Removed | null = null; update((l) => { const res = removeStep(l, s.id); rm = res.removed; return res.list; }); setRemoved(rm); }}>Remove card</button>
+                  <button className={btn.ghost + " text-danger"} onClick={() => { let rm: Removed | null = null; update((l) => { const res = removeStep(l, s.id); rm = res.removed; return res.list; }); setRemoved(rm); }}>Remove</button>
                 </div>
               </li>
             );
           })}
         </ol>
+      )}
+      {steps.length > 0 && (
+        <Link to="/" className={btn.primary + " mt-8 w-full"}><Search className="size-4" /> Find another next step</Link>
       )}
     </Shell>
   );

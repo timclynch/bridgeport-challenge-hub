@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-ro
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Check, Globe, MapPin, Phone, Plus, X, AlertCircle } from "lucide-react";
 import { Shell, Chip, Badge, btn } from "@/components/next/shell";
-import { ResourceCard, ConflictPanel, FitBadge, SampleBadge, Sources } from "@/components/next/resource-card";
+import { ResourceCard, ConflictPanel, DestinationCard, FitBadge, SampleBadge, Sources } from "@/components/next/resource-card";
 import { JOURNEYS, isJourney, rankOptions, fit as fitOf, type FitStatus } from "@/data/journeys";
 import { getResource, getFact, unresolved, useDemo, type Resource } from "@/data/resources";
 import { useSteps, addStep } from "@/lib/steps";
@@ -235,17 +235,22 @@ function CardStep({ journey, r, prefs, msg, contact, go }: { journey: J; r: Reso
   if (contact) return <ContactStep r={r} draft={draft} chosen={chosen} />;
 
   return (
-    <div className="mx-auto max-w-2xl space-y-5">
-      <div>
-        <p className="text-sm text-muted-foreground">Your next step</p>
-        <h1 className="font-display text-3xl font-semibold text-foreground">Contact {r.name}</h1>
-        <div className="mt-2 flex flex-wrap gap-2">
-          <FitBadge fit={f} />
-          <SampleBadge r={r} />
-          <Badge tone={savedId ? "success" : "muted"}>{savedId ? "Saved · not sent" : "Not saved"}</Badge>
-        </div>
-      </div>
-      <section className="space-y-4 rounded-2xl border border-border bg-card p-5 shadow-card">
+    <div className="mx-auto max-w-3xl space-y-5">
+      <DestinationCard
+        r={r}
+        heading={`Contact ${r.name}`}
+        why={r.description}
+        onSave={save}
+        saved={!!savedId}
+        extra={
+          <div className="mt-3 flex max-w-xl flex-wrap gap-2">
+            <FitBadge fit={f} />
+            <SampleBadge r={r} />
+            <Badge tone={savedId ? "success" : "muted"}>{savedId ? "Saved · not sent" : "Not saved"}</Badge>
+          </div>
+        }
+      />
+      <section className="space-y-4 rounded-2xl border border-border bg-card/50 p-5 shadow-card">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Why this may fit</p>
           <p className="text-foreground">{r.description}</p>
