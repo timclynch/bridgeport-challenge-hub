@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { ArrowLeftRight, Check, ExternalLink, HelpCircle } from "lucide-react";
-import { FACT_LABELS, factLabel, formatValue, getFact, sourceFor, type Resource } from "@/data/resources";
+import { useState, type ReactNode } from "react";
+import { ArrowLeftRight, Bookmark, Building2, Check, Clock, ExternalLink, HelpCircle, Lock, MapPin } from "lucide-react";
+import { FACT_LABELS, factLabel, formatValue, getFact, sourceFor, unresolved, type Resource } from "@/data/resources";
 import type { FitResult } from "@/data/journeys";
-import { Badge } from "./shell";
+import { Badge, btn } from "./shell";
+import { Mascot } from "./brand";
 import { cn } from "@/lib/utils";
 
 export function FitBadge({ fit }: { fit: FitResult }) {
@@ -98,11 +99,107 @@ export function Sources({ r }: { r: Resource }) {
   );
 }
 
+export function actionLabel(r: Resource) {
+  if (r.id === "pantry") return "Open pantry information";
+  if (r.id === "tutoring") return "View tutoring options";
+  if (r.id === "career") return "Explore career support";
+  return "Open official page";
+}
+
+function factLine(r: Resource, field: string) {
+  const l = factLabel(getFact(r, field));
+  if (l.tone === "unknown") return "Confirm with the office";
+  if (l.tone === "conflict") return "Sources disagree — confirm before you go";
+  return l.text;
+}
+
+export function DestinationCard({
+  r,
+  heading,
+  why,
+  warn,
+  onSave,
+  saved,
+  extra,
+}: {
+  r: Resource;
+  heading: string;
+  why?: string;
+  warn?: string;
+  onSave?: () => void;
+  saved?: boolean;
+  extra?: ReactNode;
+}) {
+  const unknowns = unresolved(r);
+  const warnText =
+    warn ??
+    (unknowns.length
+      ? `Check ${unknowns.join(", ").toLowerCase()} before relying on this.`
+      : r.confidence === "conflict"
+        ? "Some listed details conflict across official pages. Confirm with the office."
+        : null);
+  return (
+    <div>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Your next step</p>
+      <h1 className="mt-1 font-display text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">{heading}</h1>
+      <article className="relative mt-6 overflow-hidden rounded-[1.75rem] border border-primary/40 bg-card/50 p-5 shadow-card sm:p-7">
+        <Mascot className="pointer-events-none absolute right-2 top-2 hidden w-40 lg:block" />
+        <div className="flex max-w-xl items-start gap-3">
+          <span className="grid size-12 shrink-0 place-items-center rounded-2xl border border-primary/40 bg-primary/10 text-primary">
+            <Building2 className="size-6" />
+          </span>
+          <div>
+            <h2 className="font-display text-2xl font-bold text-foreground">{r.name}</h2>
+            <p className="text-sm text-muted-foreground">{why ?? r.description}</p>
+          </div>
+        </div>
+        <dl className="mt-5 max-w-xl space-y-2 text-sm">
+          <div className="flex gap-2">
+            <MapPin className="mt-0.5 size-4 shrink-0 text-primary" />
+            <div><span className="font-semibold">Location: </span>{factLine(r, "location")}</div>
+          </div>
+          <div className="flex gap-2">
+            <Clock className="mt-0.5 size-4 shrink-0 text-primary" />
+            <div><span className="font-semibold">Hours: </span>{factLine(r, "service_hours")}</div>
+          </div>
+          <div className="flex gap-2">
+            <Lock className="mt-0.5 size-4 shrink-0 text-primary" />
+            <div><span className="font-semibold">Access: </span>{factLine(r, "access")}</div>
+          </div>
+        </dl>
+        {warnText && (
+          <p className="mt-4 max-w-xl rounded-2xl border border-amber-400/40 bg-amber-500/15 px-4 py-3 text-sm font-medium text-warn-foreground">
+            {warnText}
+          </p>
+        )}
+        {r.confidence === "conflict" && <div className="mt-4 max-w-xl"><ConflictPanel r={r} /></div>}
+        <div className="mt-5 flex max-w-xl flex-wrap gap-3">
+          {r.url && (
+            <a href={r.url} target="_blank" rel="noreferrer" className={btn.primary}>
+              {actionLabel(r)} <ExternalLink className="size-4" />
+            </a>
+          )}
+          {onSave && (
+            <button type="button" onClick={onSave} className={btn.secondary}>
+              <Bookmark className="size-4" /> {saved ? "Saved on this device" : "Save this step"}
+            </button>
+          )}
+        </div>
+        {extra}
+        <div className="mt-6 flex max-w-xl flex-wrap items-end justify-between gap-2 border-t border-border/60 pt-4 text-xs text-muted-foreground">
+          <Sources r={r} />
+          <p>Opening a page does not place an order or book an appointment.</p>
+        </div>
+      </article>
+    </div>
+  );
+}
+
 export function ResourceCard({ r, fit, selected, action }: { r: Resource; fit?: FitResult; selected?: boolean; action?: React.ReactNode }) {
   const [showConflict, setShowConflict] = useState(false);
   const dim = fit?.status === "no-fit";
   return (
-    <article className={cn("space-y-3 rounded-2xl border bg-card p-4 shadow-card", selected ? "border-primary ring-2 ring-primary/20" : "border-border", dim && "opacity-75")}>
+    <article className={cn("space-y-3 rounded-[1.5rem] border bg-card/55 p-4 shadow-card backdrop-blur", selected ? "border-primary ring-2 ring-primary/20" : "border-border", dim && "opacity-75")}>
       <div className="flex flex-wrap items-center gap-2">
         {fit && <FitBadge fit={fit} />}
         <SampleBadge r={r} />
