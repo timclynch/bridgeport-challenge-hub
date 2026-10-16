@@ -55,7 +55,7 @@ function StepsPage() {
               <li key={s.id} className="space-y-3 rounded-2xl border border-border bg-card p-5 shadow-card">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{i + 1} · {masked ? "Private step" : s.journey}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{i + 1} · {masked ? "Private step" : s.journey}{s.sample && <span className="ml-2 rounded-full bg-danger-soft px-2 py-0.5 normal-case text-danger">Sample data · fictional</span>}</p>
                     <h2 className="font-display text-xl font-semibold text-card-foreground">{masked ? "Saved for you to review" : s.title}</h2>
                     {!masked && <p className="text-sm text-muted-foreground">{s.goal}</p>}
                   </div>

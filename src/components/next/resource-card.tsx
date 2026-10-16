@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ArrowLeftRight, Check, HelpCircle } from "lucide-react";
-import type { Resource } from "@/data/resources";
+import { ArrowLeftRight, Check, ExternalLink, HelpCircle } from "lucide-react";
+import { FACT_LABELS, factLabel, formatValue, getFact, sourceFor, type Resource } from "@/data/resources";
 import type { FitResult } from "@/data/journeys";
 import { Badge } from "./shell";
 import { cn } from "@/lib/utils";
@@ -12,55 +12,99 @@ export function FitBadge({ fit }: { fit: FitResult }) {
   return <Badge tone="muted">No preferences set</Badge>;
 }
 
-export function ConfidenceBadge({ r }: { r: Resource }) {
-  if (r.confidence === "published") return <Badge tone="success">Published</Badge>;
-  if (r.confidence === "conflict") return <Badge tone="warn"><ArrowLeftRight className="size-3" /> Details conflict</Badge>;
-  return <Badge tone="warn">Needs confirmation</Badge>;
+export function SampleBadge({ r }: { r: Resource }) {
+  return r.sample ? <Badge tone="danger">Sample data · fictional</Badge> : null;
 }
 
+const fmtDate = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
 export function ConflictPanel({ r }: { r: Resource }) {
-  if (!r.conflict) return null;
+  const fields = Object.entries(r.facts).filter(([, f]) => f.status === "conflicting");
+  if (!fields.length) return null;
   return (
-    <div className="rounded-xl border border-warn-foreground/30 bg-warn p-3 text-sm">
-      <p className="font-semibold text-warn-foreground">{r.conflict.summary}</p>
-      <p className="text-warn-foreground">Confirm with the office before visiting.</p>
-      <div className="mt-2 grid gap-2 sm:grid-cols-2">
-        {r.conflict.sources.map((s) => (
-          <div key={s.label} className="rounded-lg bg-card p-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{s.label}</p>
-            <p className="text-foreground">{s.states}</p>
+    <div className="space-y-3 rounded-xl border border-warn-foreground/30 bg-warn p-3 text-sm">
+      <p className="font-semibold text-warn-foreground">Sources disagree. Confirm with the office before relying on these.</p>
+      {fields.map(([field, f]) => (
+        <div key={field}>
+          <p className="text-xs font-semibold uppercase tracking-wide text-warn-foreground">{FACT_LABELS[field] ?? field}</p>
+          <div className="mt-1 grid gap-2 sm:grid-cols-2">
+            {f.evidence.map((e, i) => {
+              const s = sourceFor(r, e.sourceId);
+              return (
+                <div key={i} className="rounded-lg bg-card p-2">
+                  <p className="text-foreground">{formatValue(e.value)}</p>
+                  <p className="text-xs text-muted-foreground">{s?.url ? <a href={s.url} target="_blank" rel="noreferrer" className="underline">{s.title.replace("UB resource research: ", "")}</a> : s?.title ?? "Source"}</p>
+                </div>
+              );
+            })}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }
 
-export function ResourceCard({
-  r,
-  fit,
-  selected,
-  action,
-}: {
-  r: Resource;
-  fit?: FitResult;
-  selected?: boolean;
-  action?: React.ReactNode;
-}) {
+const SHOW = ["location", "service_hours", "cost", "access", "modality", "phone", "email"];
+
+export function FactList({ r }: { r: Resource }) {
+  return (
+    <dl className="grid grid-cols-[6.5rem_1fr] gap-x-2 gap-y-1 text-sm">
+      {SHOW.map((field) => {
+        const l = factLabel(getFact(r, field));
+        return (
+          <div key={field} className="contents">
+            <dt className="text-muted-foreground">{FACT_LABELS[field]}</dt>
+            <dd className={cn(l.tone === "published" ? "text-foreground" : l.tone === "conflict" ? "font-medium text-warn-foreground" : "text-muted-foreground")}>
+              {l.tone === "unknown" && <HelpCircle className="mr-1 inline size-3.5 text-warn-foreground" />}
+              {l.tone === "conflict" && <ArrowLeftRight className="mr-1 inline size-3.5" />}
+              {l.text}
+            </dd>
+          </div>
+        );
+      })}
+      {r.windows.length > 0 && (
+        <div className="contents">
+          <dt className="text-muted-foreground">Window</dt>
+          <dd className="text-foreground">{r.windows.map((w) => `${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][w.weekday]} ${w.start}–${w.end}`).join(", ")}</dd>
+        </div>
+      )}
+      {r.event && (
+        <div className="contents">
+          <dt className="text-muted-foreground">When</dt>
+          <dd className="text-foreground">
+            {new Date(r.event.startsAt).toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "America/New_York" })}–
+            {new Date(r.event.endsAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" })} · registration {r.event.registration.replace("_", " ")}
+          </dd>
+        </div>
+      )}
+    </dl>
+  );
+}
+
+export function Sources({ r }: { r: Resource }) {
+  return (
+    <div className="text-xs text-muted-foreground">
+      {r.sources.map((s) => (
+        <p key={s.id}>
+          Source: {s.url ? <a href={s.url} target="_blank" rel="noreferrer" className="underline">{s.title.replace("UB resource research: ", "")}</a> : s.title} · Reviewed {fmtDate(s.reviewedAt)}
+        </p>
+      ))}
+      {r.overdue && <p className="font-semibold text-warn-foreground">Source review overdue — details may be out of date.</p>}
+    </div>
+  );
+}
+
+export function ResourceCard({ r, fit, selected, action }: { r: Resource; fit?: FitResult; selected?: boolean; action?: React.ReactNode }) {
   const [showConflict, setShowConflict] = useState(false);
   const dim = fit?.status === "no-fit";
   return (
-    <article
-      className={cn(
-        "space-y-3 rounded-2xl border bg-card p-4 shadow-card",
-        selected ? "border-primary ring-2 ring-primary/20" : "border-border",
-        dim && "opacity-75",
-      )}
-    >
+    <article className={cn("space-y-3 rounded-2xl border bg-card p-4 shadow-card", selected ? "border-primary ring-2 ring-primary/20" : "border-border", dim && "opacity-75")}>
       <div className="flex flex-wrap items-center gap-2">
-        {fit ? <FitBadge fit={fit} /> : <ConfidenceBadge r={r} />}
+        {fit && <FitBadge fit={fit} />}
+        <SampleBadge r={r} />
+        <Badge tone="muted">{r.category}</Badge>
         {r.offCampus && <Badge tone="muted">Off campus</Badge>}
-        {r.conflict && (
+        {r.confidence === "conflict" && (
           <button onClick={() => setShowConflict((v) => !v)} className="inline-flex items-center gap-1 rounded-full bg-warn px-2.5 py-0.5 text-xs font-semibold text-warn-foreground">
             <ArrowLeftRight className="size-3" /> details conflict · {showConflict ? "hide" : "see sources"}
           </button>
@@ -68,30 +112,21 @@ export function ResourceCard({
       </div>
       <div>
         <h3 className="font-display text-lg font-semibold text-card-foreground">{r.name}</h3>
-        <p className="text-sm text-muted-foreground">{r.helps}</p>
+        <p className="text-sm text-muted-foreground">{r.description}</p>
       </div>
-      <dl className="grid grid-cols-[5.5rem_1fr] gap-x-2 gap-y-1 text-sm">
-        <dt className="text-muted-foreground">Access</dt>
-        <dd className="text-foreground">{r.access}</dd>
-        {fit?.reasons.length ? (
-          <>
-            <dt className="text-muted-foreground">Why not</dt>
-            <dd className="text-foreground">{fit.reasons.join(" · ")}</dd>
-          </>
-        ) : null}
-      </dl>
+      <FactList r={r} />
+      {fit?.reasons.length ? <p className="text-sm text-foreground"><span className="text-muted-foreground">Why not: </span>{fit.reasons.join(" · ")}</p> : null}
       {showConflict && <ConflictPanel r={r} />}
-      {r.unresolved.length > 0 && (
-        <ul className="space-y-1 text-sm">
-          {r.unresolved.map((u) => (
-            <li key={u} className="flex gap-2 text-muted-foreground">
-              <HelpCircle className="mt-0.5 size-4 shrink-0 text-warn-foreground" /> {u} — not published
-            </li>
-          ))}
-        </ul>
-      )}
-      <p className="text-xs text-muted-foreground">Source: {r.source}</p>
-      {action}
+      <p className="text-sm text-foreground"><span className="font-semibold">Next step: </span>{r.nextStep}</p>
+      <Sources r={r} />
+      <div className="flex flex-wrap items-center gap-2">
+        {action}
+        {r.url && (
+          <a href={r.url} target="_blank" rel="noreferrer" className="inline-flex min-h-9 items-center gap-1 rounded-lg px-2 text-sm font-medium text-primary hover:bg-secondary">
+            Official page <ExternalLink className="size-3.5" />
+          </a>
+        )}
+      </div>
     </article>
   );
 }

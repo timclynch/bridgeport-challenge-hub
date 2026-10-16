@@ -18,6 +18,7 @@ export type Step = {
   status: StepStatus;
   note: string;
   sensitive: boolean;
+  sample?: boolean | undefined;
 };
 
 export type Removed = { step: Step; index: number };
