@@ -12,10 +12,10 @@ type Search = { step: StepName; msg?: string | undefined; r?: string | undefined
 
 export const Route = createFileRoute("/need/$journey")({
   validateSearch: (s: { step?: unknown; msg?: unknown; r?: unknown; p?: unknown }): Search => ({
-    step: (["prefs", "compare", "card", "contact"] as const).includes(s.step as StepName) ? (s.step as StepName) : "prefs",
-    msg: typeof s.msg === "string" ? s.msg : undefined,
-    r: typeof s.r === "string" ? s.r : undefined,
-    p: s.p && typeof s.p === "object" ? (s.p as Record<string, string>) : undefined,
+    step: (["prefs", "compare", "card", "contact"] as const).includes(s["step"] as StepName) ? (s["step"] as StepName) : "prefs",
+    msg: typeof s["msg"] === "string" ? s["msg"] : undefined,
+    r: typeof s["r"] === "string" ? s["r"] : undefined,
+    p: s["p"] && typeof s["p"] === "object" ? (s["p"] as Record<string, string>) : undefined,
   }),
   beforeLoad: ({ params }) => {
     if (!isJourney(params.journey)) throw notFound();
