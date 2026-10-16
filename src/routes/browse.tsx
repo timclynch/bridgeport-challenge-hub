@@ -2,16 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell, Chip, btn } from "@/components/next/shell";
 import { ResourceCard } from "@/components/next/resource-card";
-import { allResources, CATEGORIES, useDemo, type Resource } from "@/data/resources";
+import { allResources, CATEGORIES, REAL, useDemo, type Resource } from "@/data/resources";
 import type { JourneyId } from "@/data/journeys";
 
 export const Route = createFileRoute("/browse")({
   head: () => ({
     meta: [
       { title: "Browse resources — Next Step" },
-      { name: "description", content: "54 University of Bridgeport and Connecticut student resources, with sources and what’s confirmed or unknown." },
+      { name: "description", content: `${REAL.length} University of Bridgeport and Connecticut student resources, with sources and what’s confirmed or unknown.` },
       { property: "og:title", content: "Browse resources — Next Step" },
-      { property: "og:description", content: "Every UB student resource in one list, with honest fact labels." },
+      { property: "og:description", content: `${REAL.length} UB student resources in one list, with honest fact labels.` },
     ],
   }),
   component: Browse,
