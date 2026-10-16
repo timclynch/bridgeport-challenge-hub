@@ -10,11 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BrowseRouteImport } from './routes/browse'
+import { Route as StepsRouteImport } from './routes/steps'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as NeedJourneyRouteImport } from './routes/need.$journey'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrowseRoute = BrowseRouteImport.update({
+  id: '/browse',
+  path: '/browse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StepsRoute = StepsRouteImport.update({
+  id: '/steps',
+  path: '/steps',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -22,31 +35,48 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NeedJourneyRoute = NeedJourneyRouteImport.update({
+  id: '/need/$journey',
+  path: '/need/$journey',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/steps': typeof StepsRoute
   '/api/chat': typeof ApiChatRoute
+  '/need/$journey': typeof NeedJourneyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/steps': typeof StepsRoute
   '/api/chat': typeof ApiChatRoute
+  '/need/$journey': typeof NeedJourneyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/steps': typeof StepsRoute
   '/api/chat': typeof ApiChatRoute
+  '/need/$journey': typeof NeedJourneyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/chat'
+  fullPaths: '/' | '/browse' | '/steps' | '/api/chat' | '/need/$journey'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/chat'
-  id: '__root__' | '/' | '/api/chat'
+  to: '/' | '/browse' | '/steps' | '/api/chat' | '/need/$journey'
+  id: '__root__' | '/' | '/browse' | '/steps' | '/api/chat' | '/need/$journey'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrowseRoute: typeof BrowseRoute
+  StepsRoute: typeof StepsRoute
   ApiChatRoute: typeof ApiChatRoute
+  NeedJourneyRoute: typeof NeedJourneyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +88,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/browse': {
+      id: '/browse'
+      path: '/browse'
+      fullPath: '/browse'
+      preLoaderRoute: typeof BrowseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/steps': {
+      id: '/steps'
+      path: '/steps'
+      fullPath: '/steps'
+      preLoaderRoute: typeof StepsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -65,12 +109,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/need/$journey': {
+      id: '/need/$journey'
+      path: '/need/$journey'
+      fullPath: '/need/$journey'
+      preLoaderRoute: typeof NeedJourneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrowseRoute: BrowseRoute,
+  StepsRoute: StepsRoute,
   ApiChatRoute: ApiChatRoute,
+  NeedJourneyRoute: NeedJourneyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
