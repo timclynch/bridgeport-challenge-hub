@@ -53,8 +53,8 @@ export function formatValue(v: unknown): string {
   if (Array.isArray(v)) return v.map(formatValue).join(", ");
   if (typeof v === "object") {
     const o = v as Record<string, unknown>;
-    if (o.kind === "free") return "Free";
-    if (o.kind) return String(o.kind).replace(/_/g, " ");
+    if (o["kind"] === "free") return "Free";
+    if (o["kind"]) return String(o["kind"]).replace(/_/g, " ");
     return Object.values(o).map(formatValue).join(" · ");
   }
   return String(v).replace(/_/g, " ").replace(/^enrolled student$/, "Enrolled students").replace(/^in person$/, "In person").replace(/^online$/, "Online");
@@ -71,14 +71,14 @@ function adapt(r: Raw): Resource {
   const tags: Record<string, string[]> = {};
   const modality = getFact(r, "modality");
   if (modality.status === "published" && Array.isArray(modality.value)) {
-    tags.how = (modality.value as string[]).map((m) => (m === "in_person" ? "in-person" : m));
+    tags["how"] = (modality.value as string[]).map((m) => (m === "in_person" ? "in-person" : m));
   }
   const offCampus = r.id.startsWith("community") || OFF.has(r.id);
-  tags.where = [offCampus ? "off" : "on"];
-  if (r.windows.length) tags.days = [...new Set(r.windows.map((w) => DAY_NAMES[w.weekday] as string))];
-  else if (r.event) tags.days = [DAY_NAMES[(new Date(r.event.startsAt).getUTCDay() + 6) % 7] as string];
+  tags["where"] = [offCampus ? "off" : "on"];
+  if (r.windows.length) tags["days"] = [...new Set(r.windows.map((w) => DAY_NAMES[w.weekday] as string))];
+  else if (r.event) tags["days"] = [DAY_NAMES[(new Date(r.event.startsAt).getUTCDay() + 6) % 7] as string];
   const topics = r.needs.map((n) => n.replace("support_", ""));
-  if (topics.length) tags.topic = topics;
+  if (topics.length) tags["topic"] = topics;
   const conflict = Object.values(r.facts).some((f) => f.status === "conflicting");
   return { ...r, helps: r.description, offCampus, tags, confidence: conflict ? "conflict" : "confirm" };
 }
