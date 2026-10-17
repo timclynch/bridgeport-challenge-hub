@@ -125,7 +125,7 @@ export function DestinationCard({
   r: Resource;
   heading: string;
   why?: string;
-  warn?: string;
+  warn?: string | undefined;
   onSave?: () => void;
   saved?: boolean;
   extra?: ReactNode;

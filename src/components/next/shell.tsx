@@ -80,7 +80,7 @@ function NavLink({ to, icon: Icon, label }: { to: "/"; icon: typeof Home; label:
       to={to}
       className="flex items-center gap-2.5 rounded-2xl px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-card/50 hover:text-foreground"
       activeProps={{ className: "flex items-center gap-2.5 rounded-2xl border border-primary/50 bg-primary/15 px-3 py-2.5 text-sm font-semibold text-foreground shadow-card" }}
-      activeOptions={to === "/" ? { exact: true } : undefined}
+      activeOptions={{ exact: !!(to === "/") }}
     >
       <Icon className="size-4" /> {label}
     </Link>
@@ -93,7 +93,7 @@ function MobileLink({ to, icon: Icon, label }: { to: "/" | "/browse" | "/steps";
       to={to}
       className="flex flex-1 flex-col items-center gap-0.5 py-1 text-[11px] font-semibold text-muted-foreground"
       activeProps={{ className: "flex flex-1 flex-col items-center gap-0.5 py-1 text-[11px] font-semibold text-primary" }}
-      activeOptions={to === "/" ? { exact: true } : undefined}
+      activeOptions={{ exact: !!(to === "/") }}
     >
       <Icon className="size-5" /> {label}
     </Link>
