@@ -66,3 +66,9 @@ describe("saved steps", () => {
     expect(restoreStep(after, removed!).map((x) => x.id)).toEqual(["a", "b", "c"]);
   });
 });
+
+import { rankOptions as rankAll, JOURNEYS as J2 } from "@/data/journeys";
+import { it as it2, expect as ex2 } from "vitest";
+it2("Food list shows more than 10 resources", () => {
+  ex2(rankAll(J2.food, {}).length).toBeGreaterThan(10);
+});
