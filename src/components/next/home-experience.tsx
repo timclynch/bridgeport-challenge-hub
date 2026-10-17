@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, Briefcase, Building2, Check, Send, ShoppingBasket, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
@@ -78,6 +78,7 @@ type View = "starters" | "talk" | "card";
 type FoodNeed = "" | "groceries" | "immediate";
 
 export function HomeExperience() {
+  const navigate = useNavigate();
   const { profile, update } = useProfile();
   const [nameDraft, setNameDraft] = useState("");
   const [view, setView] = useState<View>("starters");
@@ -125,19 +126,6 @@ export function HomeExperience() {
   const submitFree = (text: string) => {
     const t = text.trim();
     if (!t) return;
-    const lower = t.toLowerCase();
-    const hit = PRESETS.find((p) =>
-      p.id === "food"
-        ? /food|grocer|hungry|meal|pantry/.test(lower)
-        : p.id === "study"
-          ? /tutor|class|math|study|homework/.test(lower)
-          : /intern|career|job|resume|résumé/.test(lower),
-    );
-    if (hit) {
-      startPreset(hit);
-      if (hit.clarify && /tonight|now|today|meal/.test(lower)) setFoodNeed("immediate");
-      return;
-    }
     setPreset(null);
     setSeed(t);
     setFallback(false);
@@ -284,10 +272,7 @@ export function HomeExperience() {
         {QUICK.map((q) => (
           <button
             key={q.label}
-            onClick={() => {
-              if (q.preset) startPreset(PRESETS.find((p) => p.id === q.preset)!);
-              else submitFree(q.label);
-            }}
+            onClick={() => navigate({ to: "/need/$journey", params: { journey: q.journey }, search: { step: "compare", p: {} } })}
             className="rounded-2xl border border-border bg-card/30 px-3 py-3 text-left hover:border-primary/50"
           >
             <span className="block font-semibold">{q.label}</span>
